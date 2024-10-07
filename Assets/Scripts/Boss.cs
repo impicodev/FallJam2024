@@ -13,8 +13,7 @@ public class Boss : MonoBehaviour
         float angle = Random.Range(0, 360);
         if (attack.pattern == BulletPattern.TargetedSpread)
         {
-            //           TODO (player position)
-            Vector2 direction = Vector3.zero - transform.position;
+            Vector2 direction = Player.Instance.transform.position - transform.position;
             angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         }
         for (int i = 0; i < attack.burstAmount; i++)

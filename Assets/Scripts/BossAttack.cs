@@ -9,7 +9,8 @@ public enum BulletPattern
     MinionSpawn
 }
 
-public class BossAttack : MonoBehaviour
+[System.Serializable]
+public class BossAttack
 {
     public GameObject projectilePrefab;
     public BulletPattern pattern;

@@ -5,36 +5,49 @@ using static UnityEngine.Input;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance;
+    public float Health
+    {
+        get { return health; }
+        set
+        {
+            health = value;
+            // update healthbar UI
+            if (health <= 0)
+                Die();
+        }
+    }
+
     [Header("Constants")]
     [SerializeField] float speed = 1.0f;
+    [SerializeField] float maxHealth = 100;
 
 
     Vector2 pos;
     Quaternion rotation;
+    float health;
 
-    Transform myTransform;
-    float deltaTime;
     // Start is called before the first frame update
     void Start()
     {
-        myTransform = GetComponent<Transform>();
-        pos = myTransform.position;
-        rotation = myTransform.rotation;
+        Instance = this;
+        health = maxHealth;
+        pos = transform.position;
+        rotation = transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
-        deltaTime = Time.deltaTime;
         Move();
         Look();
-        myTransform.position = pos;
-        myTransform.rotation = rotation;
+        transform.position = pos;
+        transform.rotation = rotation;
     }
 
     void Move() {
-        pos.x += speed * deltaTime * Input.GetAxisRaw("Horizontal");
-        pos.y += speed * deltaTime * Input.GetAxisRaw("Vertical");
+        pos.x += speed * Time.deltaTime * Input.GetAxisRaw("Horizontal");
+        pos.y += speed * Time.deltaTime * Input.GetAxisRaw("Vertical");
     }
 
     void Look() {
@@ -47,7 +60,11 @@ public class Player : MonoBehaviour
         }
 
         rotation = Quaternion.Euler(0, 0, angle);
+    }
 
+    private void Die()
+    {
+        // TODO
     }
 }
 
