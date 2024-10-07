@@ -39,7 +39,14 @@ public class Player : MonoBehaviour
 
     void Look() {
         Vector2 mousePosWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        rotation.z = Mathf.Atan(mousePosWorld.y - pos.y / mousePosWorld.x - pos.x);
+        float deltax = mousePosWorld.x - pos.x;
+        float deltay = mousePosWorld.y - pos.y;
+        float angle = Mathf.Atan(deltay / deltax) * Mathf.Rad2Deg;
+        if(deltax < 0) {
+            angle -= 180.0f;
+        }
+
+        rotation = Quaternion.Euler(0, 0, angle);
 
     }
 }
