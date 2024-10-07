@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 0;
-    public float damage = 10;
     public float lifetime = 10;
+    
+    [System.NonSerialized] public float speed = 5;
+    [System.NonSerialized] public float damage = 10;
 
     private void Awake()
     {
@@ -20,12 +21,12 @@ public class Projectile : MonoBehaviour
 
     public virtual void Move()
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += transform.up * speed * Time.deltaTime;
     }
 
-    public virtual void OnCollisionEnter2D(Collision2D collision)
+    public virtual void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.collider.TryGetComponent(out Player player))
+        if (collider.TryGetComponent(out Player player))
         {
             player.Health -= damage;
             Destroy(gameObject);

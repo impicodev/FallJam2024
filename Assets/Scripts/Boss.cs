@@ -6,6 +6,7 @@ public class Boss : MonoBehaviour
 {
     public List<BossAttack> attacks;
     public bool attacksAreOrdered = false;
+    public float spriteRadius = 1;
 
     public IEnumerator attack(BossAttack attack)
     {
@@ -18,7 +19,36 @@ public class Boss : MonoBehaviour
         }
         for (int i = 0; i < attack.burstAmount; i++)
         {
-            // TODO (attack)
+            if (attack.pattern == BulletPattern.MinionSpawn)
+            {
+                // TODO
+            }
+            else if (attack.pattern == BulletPattern.Radial || attack.pattern == BulletPattern.TargetedSpread)
+            {
+                float curAngle = angle;
+                float delta;
+                if (attack.pattern == BulletPattern.Radial)
+                    delta = 360 / attack.amount;
+                else
+                {
+                    delta = attack.spreadDelta;
+                    curAngle -= (attack.amount - 1) / 2 * delta;
+                }
+
+                for (int j = 0; j < attack.amount; j++)
+                {
+                    Vector3 position = transform.position +
+                        new Vector3(
+                            Mathf.Cos(curAngle * Mathf.Deg2Rad),
+                            Mathf.Sin(curAngle * Mathf.Deg2Rad),
+                            0) * spriteRadius;
+                    Quaternion rotation = Quaternion.Euler(0, 0, (attack.sameRotation ? angle : curAngle) - 90);
+                    Projectile projectile = Instantiate(attack.projectilePrefab, position, rotation).GetComponent<Projectile>();
+                    projectile.damage = attack.damage;
+                    projectile.speed = attack.speed;
+                    curAngle += delta;
+                }
+            }
             angle += attack.burstAngleDelta;
             yield return new WaitForSeconds(attack.burstDelay);
         }

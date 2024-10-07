@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
         {
             health = value;
             // update healthbar UI
+            Debug.Log("Player is at " + health + " health");
             if (health <= 0)
                 Die();
         }
@@ -48,6 +49,10 @@ public class Player : MonoBehaviour
     void Move() {
         pos.x += speed * Time.deltaTime * Input.GetAxisRaw("Horizontal");
         pos.y += speed * Time.deltaTime * Input.GetAxisRaw("Vertical");
+
+        Vector3 corner = Camera.main.ScreenToWorldPoint(Vector3.zero);
+        pos.x = Mathf.Clamp(pos.x, corner.x, -corner.x);
+        pos.y = Mathf.Clamp(pos.y, corner.y, -corner.y);
     }
 
     void Look() {
@@ -64,7 +69,7 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        // TODO
+        Destroy(gameObject);
     }
 }
 
