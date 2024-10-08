@@ -11,14 +11,19 @@ public class Boss : MonoBehaviour
     public IEnumerator attack(BossAttack attack)
     {
         yield return new WaitForSeconds(attack.waitTime);
-        float angle = Random.Range(0, 360);
-        if (attack.pattern == BulletPattern.TargetedSpread)
-        {
-            Vector2 direction = Player.Instance.transform.position - transform.position;
-            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        }
+        float angle;
         for (int i = 0; i < attack.burstAmount; i++)
         {
+            if (i == 0 || attack.recalculateAngle)
+            {
+                angle = Random.Range(0, 360);
+                if (attack.pattern == BulletPattern.TargetedSpread)
+                {
+                    Vector2 direction = Player.Instance.transform.position - transform.position;
+                    angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                }
+            }
+
             if (attack.pattern == BulletPattern.MinionSpawn)
             {
                 // TODO
