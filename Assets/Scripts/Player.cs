@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
         set
         {
             ammo = Mathf.Min(maxAmmo, value);
+            Debug.Log("Player has " + ammo + " ammos");
             // update ammo UI
         }
     }
@@ -34,9 +35,6 @@ public class Player : MonoBehaviour
     [SerializeField] int maxAmmo = 8;
     [SerializeField] float speed = 1.0f;
     [SerializeField] float maxHealth = 100;
-
-    [Header("Attack Stats")]
-    [SerializeField] int clipSize = 3;
 
     [Header("Parry Swing")]
     [SerializeField] float swingStartAngle = -23.0f;
