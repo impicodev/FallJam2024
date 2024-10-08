@@ -35,18 +35,50 @@ public class Player : MonoBehaviour
     [SerializeField] float speed = 1.0f;
     [SerializeField] float maxHealth = 100;
 
+    [Header("Attack Stats")]
+    [SerializeField] int clipSize = 3;
+
+    [Header("Parry Swing")]
+    [SerializeField] float swingStartAngle = -23.0f;
+    [SerializeField] float swingEndAngle = 23.0f;
+    [SerializeField] float maxSwingTime = 0.3f;
+
+
+
+
     Vector2 pos;
     Quaternion rotation;
     float health;
-    int ammo = 0;
+    int ammo;
+
+    GameObject parryTool;
+
+    private Quaternion swingStartRotation;
+    private Quaternion swingEndRotation;
+
+    private float swingTime = 0.0f;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
         health = maxHealth;
+        ammo = 0;
         pos = transform.position;
         rotation = transform.rotation;
+
+        parryTool = Instance.transform.Find("ParryTool").gameObject;
+        if(parryTool == null) {
+            Debug.Log("Could not find the ParryTool gameobject!");
+        }
+
+        swingStartRotation = Quaternion.Euler(0, 0, swingStartAngle);
+        swingEndRotation = Quaternion.Euler(0, 0, swingEndAngle);
+
+        parryTool.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -63,6 +95,7 @@ public class Player : MonoBehaviour
 
         Move();
         Look();
+        Parry();
         transform.position = pos;
         transform.rotation = rotation;
     }
@@ -86,6 +119,23 @@ public class Player : MonoBehaviour
         }
 
         rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    private void Parry() {
+        //lmb pressed and ready to swing
+        if(Input.GetAxisRaw("Fire1") > 0 && swingTime == 0.0f) {
+            swingTime += Time.deltaTime;
+            parryTool.SetActive(true);
+        }
+        parryTool.transform.rotation = Quaternion.Slerp(swingStartRotation * rotation, swingEndRotation * rotation, swingTime / maxSwingTime);
+        if(swingTime > 0.0f) {
+            swingTime += Time.deltaTime;
+        }
+        if(swingTime > maxSwingTime) {
+            swingTime = 0.0f;
+            parryTool.transform.rotation = swingStartRotation;
+            parryTool.SetActive(false);
+        }
     }
 
     private void Die()

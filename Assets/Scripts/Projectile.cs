@@ -26,8 +26,14 @@ public class Projectile : MonoBehaviour
 
     public virtual void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.TryGetComponent(out Player player))
+        Player player = collider.GetComponentInParent<Player>();
+        if (player != null)
         {
+            if(collider.name == "ParryTool") {
+                player.Ammo += 1;
+                Destroy(gameObject);
+                return;
+            }
             player.Health -= damage;
             Destroy(gameObject);
         }
