@@ -4,9 +4,31 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
+    public float Health
+    {
+        get { return health; }
+        set
+        {
+            health = value;
+            // update healthbar UI
+            Debug.Log("Boss is at " + health + " health");
+            if (health <= 0)
+                Die();
+        }
+    }
+
     public List<BossAttack> attacks;
     public bool attacksAreOrdered = false;
+    public float maxHealth = 100;
     public float spriteRadius = 1;
+
+    float health;
+
+    private void Start()
+    {
+        health = maxHealth;
+        StartCoroutine(mainLoop());
+    }
 
     public IEnumerator attack(BossAttack attack)
     {
@@ -90,8 +112,8 @@ public class Boss : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Die()
     {
-        StartCoroutine(mainLoop());
+        // TODO
     }
 }
