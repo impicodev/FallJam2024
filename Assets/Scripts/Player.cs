@@ -29,8 +29,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public Gun shotgun;
-
     [Header("Constants")]
     [SerializeField] int maxAmmo = 8;
     [SerializeField] float speed = 1.0f;
@@ -50,6 +48,7 @@ public class Player : MonoBehaviour
     int ammo;
 
     GameObject parryTool;
+    public Gun shotgun;
 
     private Quaternion swingStartRotation;
     private Quaternion swingEndRotation;
@@ -72,6 +71,10 @@ public class Player : MonoBehaviour
             Debug.Log("Could not find the ParryTool gameobject!");
         }
 
+        if(!Instance.transform.Find("Shotgun").TryGetComponent(out shotgun)) {
+            Debug.Log("Could not find the Gun component!");
+        }
+
         swingStartRotation = Quaternion.Euler(0, 0, swingStartAngle);
         swingEndRotation = Quaternion.Euler(0, 0, swingEndAngle);
 
@@ -84,8 +87,8 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space)) // TESTING PURPOSES ONLY
             Ammo += 1;
-
-        if (Input.GetMouseButtonDown(0) && Ammo > 0)
+        // rmb for now
+        if (Input.GetAxisRaw("Fire2") > 0.0f && Ammo > 0)
         {
             shotgun.Shoot(Ammo);
             Ammo = 0;
