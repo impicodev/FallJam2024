@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class Gun : MonoBehaviour
 {
-    public int bullets = 4;
     public float damage = 10;
     public float minRange = 2;
     public float maxRange = 3;
@@ -20,12 +19,9 @@ public class Gun : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         transform.up = mousePos - transform.position;
-
-        if (Input.GetMouseButtonDown(0))
-            Shoot();
     }
 
-    private void Shoot()
+    public void Shoot(int bullets)
     {
         float angle = -(bullets - 1) / 2 * angleDelta;
         for (int i = 0; i < bullets; i++)

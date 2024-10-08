@@ -18,15 +18,27 @@ public class Player : MonoBehaviour
                 Die();
         }
     }
+    public int Ammo
+    {
+        get { return ammo; }
+        set
+        {
+            ammo = Mathf.Min(maxAmmo, value);
+            // update ammo UI
+        }
+    }
+
+    public Gun shotgun;
 
     [Header("Constants")]
+    [SerializeField] int maxAmmo = 8;
     [SerializeField] float speed = 1.0f;
     [SerializeField] float maxHealth = 100;
-
 
     Vector2 pos;
     Quaternion rotation;
     float health;
+    int ammo = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +52,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space)) // TESTING PURPOSES ONLY
+            Ammo += 1;
+
+        if (Input.GetMouseButtonDown(0) && Ammo > 0)
+        {
+            shotgun.Shoot(Ammo);
+            Ammo = 0;
+        }
+
         Move();
         Look();
         transform.position = pos;
