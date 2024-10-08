@@ -6,6 +6,7 @@ public class MinionHit : MonoBehaviour
 {
     private const float damageCooldown = 1.0f;
 
+    public GameObject SpriteObject;
     public float HitDamage = 10.0f;
 
     private float damageTime = damageCooldown;

@@ -29,7 +29,7 @@ public class MeleeMinion : Minion
 
         float distance = (followPosition - transform.position).magnitude;
 
-        if (distance <= AttemptAttackDistance)
+        if (distance <= AttemptAttackDistance && activityTime >= AttackCooldown)
             SetActivity(ActivityState.Attacking);
     }
 
@@ -37,12 +37,14 @@ public class MeleeMinion : Minion
     {
         hitTransform.localPosition = (Player.Instance.transform.position - transform.position).normalized * HitDistance;
         hitCollider.enabled = true;
+        hit.SpriteObject.SetActive(true);
     }
 
     protected override void FinishAttack()
     {
         hitCollider.enabled = false;
         hitTransform.localPosition = Vector2.zero;
+        hit.SpriteObject.SetActive(false);
     }
 
     protected override void HitPlayer(Player player)

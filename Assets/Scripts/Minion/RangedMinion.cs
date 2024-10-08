@@ -8,7 +8,6 @@ public class RangedMinion : Minion
     public GameObject ProjectilePrefab;
     public float ProjectileDamage = 10.0f;
     public float ProjectileSpeed = 5.0f;
-    public float AttackCooldown = 1.5f;
     public float ProjectileSpawnDistance = 0.65f;
 
     protected override void Follow()

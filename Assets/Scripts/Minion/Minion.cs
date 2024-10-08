@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Minion : MonoBehaviour
+public abstract class Minion : MonoBehaviour
 {
     protected const float damageCooldown = 1.0f;
 
@@ -12,6 +12,7 @@ public class Minion : MonoBehaviour
     public float PauseBeforeAttack = 0.1f;
     public float AttackDuration = 0.25f;
     public float PauseAfterAttack = 0.1f;
+    public float AttackCooldown = 1.5f;
     public float ContactDamage = 10.0f;
 
     protected enum ActivityState {SpawnDazed, Following, Attacking, Dying}
@@ -57,7 +58,7 @@ public class Minion : MonoBehaviour
             SetActivity(ActivityState.Following);
     }
 
-    protected virtual void Follow() { }
+    protected abstract void Follow();
 
     private void Attack()
     {
@@ -83,13 +84,9 @@ public class Minion : MonoBehaviour
         }
     }
 
-    protected virtual void StartAttack()
-    {
-    }
+    protected abstract void StartAttack();
 
-    protected virtual void FinishAttack()
-    {
-    }
+    protected abstract void FinishAttack();
 
     protected void SetActivity(ActivityState val)
     {

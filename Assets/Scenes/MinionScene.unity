@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9596a907e812cdc489bc26cc0ae0226b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpriteObject: {fileID: 555062710}
   HitDamage: 10
 --- !u!1 &555062710
 GameObject:
@@ -220,7 +221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &555062711
 Transform:
   m_ObjectHideFlags: 0
@@ -323,11 +324,11 @@ MonoBehaviour:
   PauseBeforeAttack: 0.1
   AttackDuration: 0.1
   PauseAfterAttack: 0.1
+  AttackCooldown: 1.5
   ContactDamage: 10
   ProjectilePrefab: {fileID: 5574431120585154082, guid: 2bcff3b4bca3f254292c1d4dcbdad439, type: 3}
   ProjectileDamage: 10
   ProjectileSpeed: 5
-  AttackCooldown: 1.5
   ProjectileSpawnDistance: 0.65
 --- !u!58 &895159007
 CircleCollider2D:
@@ -473,6 +474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da825fea9d5b3ea79b7680d4469c9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shotgun: {fileID: 0}
+  maxAmmo: 8
   speed: 8
   maxHealth: 100
 --- !u!4 &943856849
@@ -502,7 +505,7 @@ GameObject:
   - component: {fileID: 955159014}
   - component: {fileID: 955159015}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: MinionSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -610,9 +613,10 @@ MonoBehaviour:
   PauseBeforeAttack: 0.1
   AttackDuration: 0.25
   PauseAfterAttack: 0.1
+  AttackCooldown: 1.5
   ContactDamage: 10
   MinionHitObject: {fileID: 335388937}
-  AttemptAttackDistance: 1
+  AttemptAttackDistance: 1.5
   HitDistance: 1
 --- !u!58 &978286118
 CircleCollider2D:
