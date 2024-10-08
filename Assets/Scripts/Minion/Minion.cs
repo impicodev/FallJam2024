@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,21 +8,34 @@ public abstract class Minion : MonoBehaviour
 {
     protected const float damageCooldown = 1.0f;
 
+    public float Health = 10.0f;
     public float Speed = 2.0f;
     public float SpawnDazeDuration = 1.0f;
+    public float DamageStunDuration = 0.2f;
+    public float DeathDuration = 0.5f;
     public float PauseBeforeAttack = 0.1f;
     public float AttackDuration = 0.25f;
     public float PauseAfterAttack = 0.1f;
     public float AttackCooldown = 1.5f;
     public float ContactDamage = 10.0f;
 
-    protected enum ActivityState {SpawnDazed, Following, Attacking, Dying}
+    protected enum ActivityState {SpawnDazed, Following, Attacking, Stunned, Dying}
 
     protected ActivityState activity = ActivityState.SpawnDazed;
     protected float activityTime = 0.0f;
     protected float damageTime = damageCooldown;
     private bool startedAttacking = false;
     private bool finishedAttacking = false;
+
+    public void TakeDamage(float amount = 0.0f)
+    {
+        Health -= amount;
+
+        if (Health <= 0.0)
+            SetActivity(ActivityState.Dying);
+        else
+            SetActivity(ActivityState.Stunned);
+    }
 
     private void Update()
     {      
@@ -43,8 +57,13 @@ public abstract class Minion : MonoBehaviour
             case ActivityState.Attacking:
                 Attack();
                 break;
+
+            case ActivityState.Stunned:
+                Stun();
+                break;
             
             case ActivityState.Dying:
+                Die();
                 break;
 
             default:
@@ -87,6 +106,18 @@ public abstract class Minion : MonoBehaviour
     protected abstract void StartAttack();
 
     protected abstract void FinishAttack();
+
+    private void Stun()
+    {
+        if (activityTime >= DamageStunDuration)
+            SetActivity(ActivityState.Following);
+    }
+
+    private void Die()
+    {
+        if (activityTime > DeathDuration)
+            Destroy(gameObject);
+    }
 
     protected void SetActivity(ActivityState val)
     {
