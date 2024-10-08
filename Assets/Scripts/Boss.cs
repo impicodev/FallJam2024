@@ -11,7 +11,7 @@ public class Boss : MonoBehaviour
     public IEnumerator attack(BossAttack attack)
     {
         yield return new WaitForSeconds(attack.waitTime);
-        float angle;
+        float angle = 0;
         for (int i = 0; i < attack.burstAmount; i++)
         {
             if (i == 0 || attack.recalculateAngle)
