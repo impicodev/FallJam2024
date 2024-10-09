@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class Minion : MonoBehaviour
+public class Minion : MonoBehaviour
 {
     protected const float damageCooldown = 1.0f;
 
@@ -22,6 +23,7 @@ public abstract class Minion : MonoBehaviour
     protected enum ActivityState {SpawnDazed, Following, Attacking, Stunned, Dying}
 
     protected ActivityState activity = ActivityState.SpawnDazed;
+    protected Rigidbody2D body = null;
     protected float activityTime = 0.0f;
     protected float damageTime = damageCooldown;
     private bool startedAttacking = false;
@@ -37,8 +39,15 @@ public abstract class Minion : MonoBehaviour
             SetActivity(ActivityState.Stunned);
     }
 
-    private void Update()
-    {      
+    protected virtual void Start()
+    {
+        body = gameObject.GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (Player.Instance == null) return;
+        
         activityTime += Time.deltaTime;
         
         if (damageTime < damageCooldown)
@@ -77,7 +86,14 @@ public abstract class Minion : MonoBehaviour
             SetActivity(ActivityState.Following);
     }
 
-    protected abstract void Follow();
+    protected virtual void Follow()
+    {    
+        Vector3 followPosition = Player.Instance.transform.position;
+
+        body.MovePosition(Vector2.MoveTowards(body.position, followPosition, Speed * Time.deltaTime));
+
+        activityTime = 0.0f;
+    }
 
     private void Attack()
     {
@@ -103,9 +119,9 @@ public abstract class Minion : MonoBehaviour
         }
     }
 
-    protected abstract void StartAttack();
+    protected virtual void StartAttack() { }
 
-    protected abstract void FinishAttack();
+    protected virtual void FinishAttack() { }
 
     private void Stun()
     {
@@ -134,9 +150,9 @@ public abstract class Minion : MonoBehaviour
         }
     }
 
-    public virtual void OnTriggerEnter2D(Collider2D collider)
+    public virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collider.TryGetComponent(out Player player))
+        if (collision.gameObject.TryGetComponent(out Player player))
         {
             HitPlayer(player);
         }

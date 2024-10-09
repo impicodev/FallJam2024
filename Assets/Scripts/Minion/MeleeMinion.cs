@@ -14,8 +14,9 @@ public class MeleeMinion : Minion
     private Transform hitTransform;
     private Collider2D hitCollider;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         hit = MinionHitObject.GetComponent<MinionHit>();
         hitTransform = MinionHitObject.GetComponent<Transform>();
         hitCollider = MinionHitObject.GetComponent<Collider2D>();
@@ -25,7 +26,7 @@ public class MeleeMinion : Minion
     {
         Vector3 followPosition = Player.Instance.transform.position;
 
-        transform.position = Vector2.MoveTowards(transform.position, followPosition, Speed * Time.deltaTime);
+        body.MovePosition(Vector2.MoveTowards(body.position, followPosition, Speed * Time.deltaTime));
 
         float distance = (followPosition - transform.position).magnitude;
 

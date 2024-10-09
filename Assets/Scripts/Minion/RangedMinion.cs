@@ -14,7 +14,7 @@ public class RangedMinion : Minion
     {
         Vector3 followPosition = Player.Instance.transform.position;
 
-        transform.position = Vector2.MoveTowards(transform.position, followPosition, Speed * Time.deltaTime);
+        body.MovePosition(Vector2.MoveTowards(body.position, followPosition, Speed * Time.deltaTime));
 
         if (activityTime >= AttackCooldown)
             SetActivity(ActivityState.Attacking);
@@ -32,10 +32,5 @@ public class RangedMinion : Minion
         Projectile projectile = Instantiate(ProjectilePrefab, projectilePosition, projectileRotation).GetComponent<Projectile>();
         projectile.damage = ProjectileDamage;
         projectile.speed = ProjectileSpeed;
-    }
-
-    protected override void FinishAttack()
-    {
-        
     }
 }
