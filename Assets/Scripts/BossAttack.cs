@@ -29,7 +29,8 @@ public class BossAttack
     [Header("Attack Fields")]
     [Tooltip("Probability that attack will be chosen relative to others; irrelevant if attacks are ordered")]
     public float likelihood = 10;
-    public float waitTime = 0;
+    public float waitBefore = 0;
+    public float waitAfter = 0;
     public bool recalculateAngle = false;
     public int burstAmount = 1;
     public float burstDelay = 0.3f;

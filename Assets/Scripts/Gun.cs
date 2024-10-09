@@ -37,9 +37,21 @@ public class Gun : MonoBehaviour
 
             float bulletSpeed = Random.Range(minSpeed, maxSpeed);
             bullet.DOMove(bullet.position + bullet.up * distance, bulletSpeed).SetSpeedBased(true).onComplete = () => { Destroy(bullet.gameObject); };
-            RaycastHit2D hit = Physics2D.Raycast(firePoint.position, transform.up, distance);
-            if (hit.collider != null && hit.collider.TryGetComponent(out Boss boss))
-                boss.Health -= damage;
+            RaycastHit2D[] hits = Physics2D.RaycastAll(firePoint.position, transform.up, distance);
+            foreach (Collider2D collider in Physics2D.OverlapPointAll(firePoint.position))
+            {
+                if (collider.TryGetComponent(out Boss component))
+                    component.Health -= damage;
+                if (collider.TryGetComponent(out Minion _minion))
+                    _minion.TakeDamage(damage);
+            }
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.collider != null && hit.collider.TryGetComponent(out Boss boss))
+                    boss.Health -= damage;
+                if (hit.collider != null && hit.collider.TryGetComponent(out Minion minion))
+                    minion.TakeDamage(damage);
+            }
             angle += angleDelta;
         }
     }

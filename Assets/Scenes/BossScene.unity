@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  minRange: 2.2
-  maxRange: 3
+  minRange: 2.6
+  maxRange: 3.4
   angleDelta: 9
   minSpeed: 18
   maxSpeed: 22
@@ -663,7 +663,8 @@ MonoBehaviour:
     spreadDelta: 6
     sameRotation: 0
     likelihood: 10
-    waitTime: 2
+    waitBefore: 1
+    waitAfter: 0
     recalculateAngle: 0
     burstAmount: 5
     burstDelay: 0.4
@@ -676,10 +677,25 @@ MonoBehaviour:
     spreadDelta: 0
     sameRotation: 0
     likelihood: 8
-    waitTime: 2.5
+    waitBefore: 1
+    waitAfter: 0
     recalculateAngle: 1
     burstAmount: 8
     burstDelay: 0.25
+    burstAngleDelta: 0
+  - projectilePrefab: {fileID: 5692013528356163089, guid: d825a8f202fee504fb26778a4dfdb803, type: 3}
+    pattern: 2
+    amount: 1
+    damage: 0
+    speed: 0
+    spreadDelta: 0
+    sameRotation: 0
+    likelihood: 2
+    waitBefore: 1
+    waitAfter: 0
+    recalculateAngle: 0
+    burstAmount: 2
+    burstDelay: 0.5
     burstAngleDelta: 0
   attacksAreOrdered: 0
   maxHealth: 250
@@ -1985,7 +2001,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &1981467142
 CircleCollider2D:
   m_ObjectHideFlags: 0

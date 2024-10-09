@@ -189,7 +189,8 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        Destroy(gameObject);
+        foreach (Transform child in transform)
+            child.gameObject.SetActive(false);
         bigText.text = "YOU DIED\n(womp womp)";
         StartCoroutine(reloadScene(4));
     }

@@ -35,7 +35,7 @@ public class Boss : MonoBehaviour
 
     public IEnumerator attack(BossAttack attack)
     {
-        yield return new WaitForSeconds(attack.waitTime);
+        yield return new WaitForSeconds(attack.waitBefore);
         float angle = 0;
         for (int i = 0; i < attack.burstAmount; i++)
         {
@@ -53,9 +53,10 @@ public class Boss : MonoBehaviour
             {
                 for (int j = 0; j < attack.amount; j++)
                 {
-                    
+                    Vector3 corner = Camera.main.ScreenToWorldPoint(Vector3.zero);
+                    Vector3 point = new Vector3(Random.Range(corner.x, -corner.x), Random.Range(corner.y, -corner.y), 0);
+                    Instantiate(attack.projectilePrefab, point, Quaternion.identity);
                 }
-                // TODO
             }
             else if (attack.pattern == BulletPattern.Radial || attack.pattern == BulletPattern.TargetedSpread)
             {
@@ -86,6 +87,7 @@ public class Boss : MonoBehaviour
             angle += attack.burstAngleDelta;
             yield return new WaitForSeconds(attack.burstDelay);
         }
+        yield return new WaitForSeconds(attack.waitAfter);
     }
 
     public IEnumerator mainLoop()

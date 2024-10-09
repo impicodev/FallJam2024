@@ -32,6 +32,7 @@ public class Minion : MonoBehaviour
     public void TakeDamage(float amount = 0.0f)
     {
         Health -= amount;
+        Debug.Log("OWW. " + Health.ToString());
 
         if (Health <= 0.0)
             SetActivity(ActivityState.Dying);
