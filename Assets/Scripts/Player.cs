@@ -29,6 +29,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    public Transform sprite;
+    public Transform anchor;
+    public bool clickToSwing = true;
+    public Gun shotgun;
+    public GameObject parryTool;
+
     [Header("Constants")]
     [SerializeField] int maxAmmo = 8;
     [SerializeField] float speed = 1.0f;
@@ -47,9 +53,6 @@ public class Player : MonoBehaviour
     Quaternion rotation;
     float health;
     int ammo;
-
-    GameObject parryTool;
-    public Gun shotgun;
 
     private bool hasParry = true;
     private bool hasGun = true;
@@ -71,16 +74,12 @@ public class Player : MonoBehaviour
         pos = transform.position;
         rotation = transform.rotation;
 
-        Transform parryToolTransform = Instance.transform.Find("ParryTool");
-        if(parryToolTransform != null) {
-            parryTool = parryToolTransform.gameObject;
-        }
-        else {
+        if (!parryTool) {
             Debug.LogWarning("Could not find the ParryTool gameobject!");
             hasParry = false;
         }
 
-        if(!Instance.transform.Find("Shotgun").TryGetComponent(out shotgun)) {
+        if(!shotgun) {
             Debug.LogWarning("Could not find the Gun component!");
             hasGun = false;
         }
@@ -88,17 +87,23 @@ public class Player : MonoBehaviour
         swingStartRotation = Quaternion.Euler(0, 0, swingStartAngle);
         swingEndRotation = Quaternion.Euler(0, 0, swingEndAngle);
 
-        parryTool.SetActive(false);
-
+        parryTool.SetActive(!clickToSwing);
+        shotgun.transform.GetChild(0).gameObject.SetActive(clickToSwing);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!clickToSwing)
+        {
+            shotgun.transform.position = parryTool.transform.GetChild(0).position;
+            shotgun.transform.up = parryTool.transform.right;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space)) // TESTING PURPOSES ONLY
             Ammo += 1;
         // rmb for now
-        if (Input.GetAxisRaw("Fire2") > 0.0f && Ammo > 0 && hasGun)
+        if (Input.GetMouseButtonDown(1) && Ammo > 0 && hasGun)
         {
             shotgun.Shoot(Ammo);
             Ammo = 0;
@@ -108,12 +113,17 @@ public class Player : MonoBehaviour
         Look();
         if(hasParry) {Parry();}
         transform.position = pos;
-        transform.rotation = rotation;
+        anchor.rotation = rotation;
     }
 
     void Move() {
         pos.x += speed * Time.deltaTime * Input.GetAxisRaw("Horizontal");
         pos.y += speed * Time.deltaTime * Input.GetAxisRaw("Vertical");
+
+        Vector3 scale = sprite.localScale;
+        if (Input.GetAxisRaw("Horizontal") != 0)
+            scale.x = Mathf.Abs(scale.x) * (Input.GetAxisRaw("Horizontal") > 0 ? 1 : -1);
+        sprite.localScale = scale;
 
         Vector3 corner = Camera.main.ScreenToWorldPoint(Vector3.zero);
         pos.x = Mathf.Clamp(pos.x, corner.x, -corner.x);
@@ -134,10 +144,20 @@ public class Player : MonoBehaviour
 
     private void Parry() {
         // this feels evil
-        if(Input.GetAxisRaw("Fire1") > 0 && swingCooldownTimer >= swingCooldown) {
+        if (!clickToSwing) return;
+        if(Input.GetMouseButtonDown(0) && swingCooldownTimer >= swingCooldown) {
             swingTime += Time.deltaTime;
             parryTool.SetActive(true);
+            shotgun.gameObject.SetActive(false);
             swingCooldownTimer = 0.0f;
+
+            int sign = Camera.main.ScreenToWorldPoint(Input.mousePosition).x >= transform.position.x ? 1 : -1;
+            swingStartRotation = Quaternion.Euler(0, 0, swingStartAngle * sign);
+            swingEndRotation = Quaternion.Euler(0, 0, swingEndAngle * sign);
+
+            Vector3 scale = parryTool.transform.GetChild(0).localScale;
+            scale.y = Mathf.Abs(scale.y) * sign;
+            parryTool.transform.GetChild(0).localScale = scale;
         }
         parryTool.transform.rotation = Quaternion.Slerp(swingStartRotation * rotation, swingEndRotation * rotation, swingTime / maxSwingTime);
         if(swingTime > 0.0f) {
@@ -150,6 +170,7 @@ public class Player : MonoBehaviour
             swingTime = 0.0f;
             parryTool.transform.rotation = swingStartRotation;
             parryTool.SetActive(false);
+            shotgun.gameObject.SetActive(true);
             swingCooldownTimer += Time.deltaTime;
         }
     }

@@ -16,6 +16,11 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * -Mathf.Sign(transform.parent.localScale.x);
+        scale.x *= Mathf.Sign(transform.up.x);
+        transform.localScale = scale;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         transform.up = mousePos - transform.position;
