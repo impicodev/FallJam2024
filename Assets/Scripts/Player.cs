@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
     [SerializeField] float swingStartAngle = -23.0f;
     [SerializeField] float swingEndAngle = 23.0f;
     [SerializeField] float maxSwingTime = 0.3f;
+    [SerializeField] float swingCooldown = 5.0f;
 
 
 
@@ -50,10 +51,14 @@ public class Player : MonoBehaviour
     GameObject parryTool;
     public Gun shotgun;
 
+    private bool hasParry = true;
+    private bool hasGun = true;
+
     private Quaternion swingStartRotation;
     private Quaternion swingEndRotation;
 
     private float swingTime = 0.0f;
+    private float swingCooldownTimer = 5.0f;
 
 
 
@@ -66,13 +71,18 @@ public class Player : MonoBehaviour
         pos = transform.position;
         rotation = transform.rotation;
 
-        parryTool = Instance.transform.Find("ParryTool").gameObject;
-        if(parryTool == null) {
-            Debug.Log("Could not find the ParryTool gameobject!");
+        Transform parryToolTransform = Instance.transform.Find("ParryTool");
+        if(parryToolTransform != null) {
+            parryTool = parryToolTransform.gameObject;
+        }
+        else {
+            Debug.LogWarning("Could not find the ParryTool gameobject!");
+            hasParry = false;
         }
 
         if(!Instance.transform.Find("Shotgun").TryGetComponent(out shotgun)) {
-            Debug.Log("Could not find the Gun component!");
+            Debug.LogWarning("Could not find the Gun component!");
+            hasGun = false;
         }
 
         swingStartRotation = Quaternion.Euler(0, 0, swingStartAngle);
@@ -88,7 +98,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) // TESTING PURPOSES ONLY
             Ammo += 1;
         // rmb for now
-        if (Input.GetAxisRaw("Fire2") > 0.0f && Ammo > 0)
+        if (Input.GetAxisRaw("Fire2") > 0.0f && Ammo > 0 && hasGun)
         {
             shotgun.Shoot(Ammo);
             Ammo = 0;
@@ -96,7 +106,7 @@ public class Player : MonoBehaviour
 
         Move();
         Look();
-        Parry();
+        if(hasParry) {Parry();}
         transform.position = pos;
         transform.rotation = rotation;
     }
@@ -123,19 +133,24 @@ public class Player : MonoBehaviour
     }
 
     private void Parry() {
-        //lmb pressed and ready to swing
-        if(Input.GetAxisRaw("Fire1") > 0 && swingTime == 0.0f) {
+        // this feels evil
+        if(Input.GetAxisRaw("Fire1") > 0 && swingCooldownTimer >= swingCooldown) {
             swingTime += Time.deltaTime;
             parryTool.SetActive(true);
+            swingCooldownTimer = 0.0f;
         }
         parryTool.transform.rotation = Quaternion.Slerp(swingStartRotation * rotation, swingEndRotation * rotation, swingTime / maxSwingTime);
         if(swingTime > 0.0f) {
             swingTime += Time.deltaTime;
         }
+        if(swingCooldownTimer > 0.0f) { 
+            swingCooldownTimer += Time.deltaTime;
+        }
         if(swingTime > maxSwingTime) {
             swingTime = 0.0f;
             parryTool.transform.rotation = swingStartRotation;
             parryTool.SetActive(false);
+            swingCooldownTimer += Time.deltaTime;
         }
     }
 
