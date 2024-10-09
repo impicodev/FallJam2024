@@ -658,7 +658,7 @@ MonoBehaviour:
   - projectilePrefab: {fileID: 5574431120585154082, guid: 2bcff3b4bca3f254292c1d4dcbdad439, type: 3}
     pattern: 0
     amount: 8
-    damage: 10
+    damage: 6
     speed: 4
     spreadDelta: 6
     sameRotation: 0
@@ -672,7 +672,7 @@ MonoBehaviour:
   - projectilePrefab: {fileID: 5574431120585154082, guid: 2bcff3b4bca3f254292c1d4dcbdad439, type: 3}
     pattern: 1
     amount: 1
-    damage: 10
+    damage: 6
     speed: 5
     spreadDelta: 0
     sameRotation: 0
@@ -690,7 +690,7 @@ MonoBehaviour:
     speed: 0
     spreadDelta: 0
     sameRotation: 0
-    likelihood: 2
+    likelihood: 4
     waitBefore: 1
     waitAfter: 0
     recalculateAngle: 0
