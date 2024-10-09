@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Input;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class Player : MonoBehaviour
             health = value;
             // update healthbar UI
             Debug.Log("Player is at " + health + " health");
+            if (hpBar) hpBar.normalizedValue = health / maxHealth;
             if (health <= 0)
                 Die();
         }
@@ -26,6 +29,7 @@ public class Player : MonoBehaviour
             ammo = Mathf.Min(maxAmmo, value);
             Debug.Log("Player has " + ammo + " ammos");
             // update ammo UI
+            if (ammoText) ammoText.text = "Ammo: " + ammo.ToString() + " / " + maxAmmo.ToString();
         }
     }
 
@@ -34,6 +38,8 @@ public class Player : MonoBehaviour
     public bool clickToSwing = true;
     public Gun shotgun;
     public GameObject parryTool;
+    public TMP_Text bigText, ammoText;
+    public Slider hpBar;
 
     [Header("Constants")]
     [SerializeField] int maxAmmo = 8;
@@ -52,7 +58,7 @@ public class Player : MonoBehaviour
     Vector2 pos;
     Quaternion rotation;
     float health;
-    int ammo;
+    int ammo = 0;
 
     private bool hasParry = true;
     private bool hasGun = true;
@@ -69,8 +75,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         Instance = this;
-        health = maxHealth;
-        ammo = 0;
+        Health = maxHealth;
+        Ammo = 0;
         pos = transform.position;
         rotation = transform.rotation;
 
@@ -175,9 +181,23 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void BossDied()
+    {
+        bigText.text = "YOU WON\n(yippee!)";
+        StartCoroutine(reloadScene(4));
+    }
+
     private void Die()
     {
         Destroy(gameObject);
+        bigText.text = "YOU DIED\n(womp womp)";
+        StartCoroutine(reloadScene(4));
+    }
+
+    private IEnumerator reloadScene(float wait)
+    {
+        yield return new WaitForSeconds(wait);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
 

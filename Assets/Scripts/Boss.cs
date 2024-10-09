@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Boss : MonoBehaviour
 {
@@ -12,11 +13,13 @@ public class Boss : MonoBehaviour
             health = value;
             // update healthbar UI
             Debug.Log("Boss is at " + health + " health");
+            if (hpBar) hpBar.normalizedValue = health / maxHealth;
             if (health <= 0)
-                Die();
+                Player.Instance.BossDied();
         }
     }
 
+    public Slider hpBar;
     public List<BossAttack> attacks;
     public bool attacksAreOrdered = false;
     public float maxHealth = 100;
@@ -26,7 +29,7 @@ public class Boss : MonoBehaviour
 
     private void Start()
     {
-        health = maxHealth;
+        Health = maxHealth;
         StartCoroutine(mainLoop());
     }
 
@@ -48,6 +51,10 @@ public class Boss : MonoBehaviour
 
             if (attack.pattern == BulletPattern.MinionSpawn)
             {
+                for (int j = 0; j < attack.amount; j++)
+                {
+                    
+                }
                 // TODO
             }
             else if (attack.pattern == BulletPattern.Radial || attack.pattern == BulletPattern.TargetedSpread)
@@ -110,10 +117,5 @@ public class Boss : MonoBehaviour
 
             yield return StartCoroutine(attack(attacks[i]));
         }
-    }
-
-    private void Die()
-    {
-        // TODO
     }
 }
