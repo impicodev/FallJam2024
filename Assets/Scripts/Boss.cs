@@ -101,14 +101,25 @@ public class Boss : MonoBehaviour
             }
             else
             {
+                Debug.Log(Player.aliveMinions);
+
                 float sum = 0;
                 foreach (BossAttack attack in attacks)
+                {
+                    float likelihood = attack.likelihood;
+                    if (attack.pattern == BulletPattern.MinionSpawn)
+                        likelihood /= Player.aliveMinions + 1;
                     sum += attack.likelihood;
+                }
 
                 float point = Random.Range(0, sum);
                 for (int j = 0; j < attacks.Count; j++)
                 {
-                    point -= attacks[j].likelihood;
+                    float likelihood = attacks[j].likelihood;
+                    if (attacks[j].pattern == BulletPattern.MinionSpawn)
+                        likelihood /= Player.aliveMinions + 1;
+
+                    point -= likelihood;
                     if (point <= 0)
                     {
                         i = j;

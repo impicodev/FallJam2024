@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     [SerializeField] float maxSwingTime = 0.3f;
     [SerializeField] float swingCooldown = 5.0f;
 
-
+    public static int aliveMinions = 0;
 
 
     Vector2 pos;

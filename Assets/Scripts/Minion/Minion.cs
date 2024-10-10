@@ -42,6 +42,7 @@ public class Minion : MonoBehaviour
 
     protected virtual void Start()
     {
+        Player.aliveMinions += 1;
         body = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -133,7 +134,10 @@ public class Minion : MonoBehaviour
     private void Die()
     {
         if (activityTime > DeathDuration)
+        {
             Destroy(gameObject);
+            Player.aliveMinions -= 1;
+        }
     }
 
     protected void SetActivity(ActivityState val)

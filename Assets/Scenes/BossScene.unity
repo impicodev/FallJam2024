@@ -690,7 +690,7 @@ MonoBehaviour:
     speed: 0
     spreadDelta: 0
     sameRotation: 0
-    likelihood: 4
+    likelihood: 3
     waitBefore: 1
     waitAfter: 0
     recalculateAngle: 0
