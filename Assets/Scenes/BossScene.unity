@@ -2127,7 +2127,8 @@ MonoBehaviour:
   hpBar: {fileID: 1180164095}
   maxAmmo: 8
   speed: 5
-  maxHealth: 100
+  maxHealth: 50
+  hitInvulnTime: 0.5
   swingStartAngle: 60
   swingEndAngle: -60
   maxSwingTime: 0.15

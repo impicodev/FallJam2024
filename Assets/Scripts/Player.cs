@@ -12,7 +12,17 @@ public class Player : MonoBehaviour
     {
         get { return health; }
         set
-        {
+        {   
+            if(isInvuln) {
+                return;
+            }
+            // only do this stuff if the player isn't going to die
+            if(value - health < 0 && value > 0) {
+                isInvuln = true;
+                StartCoroutine(TempInvlun(hitInvulnTime));
+                StartCoroutine(FlashSprite(hitInvulnTime));
+
+            }
             health = value;
             // update healthbar UI
             Debug.Log("Player is at " + health + " health");
@@ -46,6 +56,7 @@ public class Player : MonoBehaviour
     [SerializeField] int maxAmmo = 8;
     [SerializeField] float speed = 1.0f;
     [SerializeField] float maxHealth = 100;
+    [SerializeField] float hitInvulnTime = 0.3f;
 
     [Header("Parry Swing")]
     [SerializeField] float swingStartAngle = -23.0f;
@@ -63,6 +74,7 @@ public class Player : MonoBehaviour
 
     private bool hasParry = true;
     private bool hasGun = true;
+    private bool isInvuln = false;
 
     private Quaternion swingStartRotation;
     private Quaternion swingEndRotation;
@@ -73,6 +85,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ResetTimeScale();
         Instance = this;
         Health = maxHealth;
         Ammo = 0;
@@ -112,6 +125,11 @@ public class Player : MonoBehaviour
         {
             shotgun.Shoot(Ammo);
             Ammo = 0;
+        }
+
+        // kills the player for testing
+        if(Input.GetKeyDown("k")) {
+            Health = 0;
         }
 
         Move();
@@ -191,15 +209,40 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
+        SloMo(3.0f);
+        StopCoroutine("FlashSprite");
         foreach (Transform child in transform)
             child.gameObject.SetActive(false);
         bigText.text = "YOU DIED\n(womp womp)";
         StartCoroutine(reloadScene(4));
     }
 
+    private void SloMo(float seconds) {
+        Time.timeScale = 0.5f;
+        Invoke("ResetTimeScale", seconds * 0.5f); // i think this function /is/ affected by the timescale
+    }
+    private void ResetTimeScale() {
+        Time.timeScale = 1.0f;
+    }
+
+    private IEnumerator TempInvlun(float seconds) {
+        yield return new WaitForSecondsRealtime(seconds);
+        isInvuln = false;
+    }
+
+    private IEnumerator FlashSprite(float seconds) {
+        int flashTimes = 4;
+        for(int i = 0; i < flashTimes; i++) {
+            sprite.gameObject.SetActive(false);
+            yield return new WaitForSecondsRealtime(seconds / (flashTimes * 2));
+            sprite.gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(seconds / (flashTimes * 2));
+        }
+    }
+
     private IEnumerator reloadScene(float wait)
     {
-        yield return new WaitForSeconds(wait);
+        yield return new WaitForSecondsRealtime(wait);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
