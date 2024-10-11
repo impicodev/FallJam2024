@@ -13,6 +13,7 @@ public class Gun : MonoBehaviour
     public float maxSpeed = 12;
     public Transform firePoint;
     public GameObject bulletPrefab;
+    public Animator animator;
 
     private void Update()
     {
@@ -28,6 +29,7 @@ public class Gun : MonoBehaviour
 
     public void Shoot(int bullets)
     {
+        animator.SetTrigger("Shoot");
         float angle = -(bullets - 1) / 2 * angleDelta;
         for (int i = 0; i < bullets; i++)
         {

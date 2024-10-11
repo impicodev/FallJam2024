@@ -5,9 +5,10 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float lifetime = 10;
-    
-    [System.NonSerialized] public float speed = 5;
+
+    [System.NonSerialized] public AnimationCurve speed;
     [System.NonSerialized] public float damage = 10;
+    float timer = 0;
 
     private void Awake()
     {
@@ -16,12 +17,13 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
+        timer += Time.deltaTime;
         Move();
     }
 
     public virtual void Move()
     {
-        transform.position += transform.up * speed * Time.deltaTime;
+        transform.position += transform.up * speed.Evaluate(timer) * Time.deltaTime;
     }
 
     public virtual void OnTriggerEnter2D(Collider2D collider)

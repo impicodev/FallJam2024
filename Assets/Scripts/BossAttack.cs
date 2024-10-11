@@ -19,8 +19,8 @@ public class BossAttack
     public int amount = 1;
     [Tooltip("Projectile damage")]
     public float damage = 10;
-    [Tooltip("Projectile speed")]
-    public float speed = 5;
+    [Tooltip("Projectile speed over time")]
+    public AnimationCurve speed;
     [Header("Spread Fields")]
     [Tooltip("Angle delta between projectiles")]
     public float spreadDelta = 0;

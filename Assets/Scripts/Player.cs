@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    public Animator animator;
     public Transform sprite;
     public Transform anchor;
     public bool clickToSwing = true;
@@ -55,10 +56,10 @@ public class Player : MonoBehaviour
     public static int aliveMinions = 0;
 
 
-    Vector2 pos;
     Quaternion rotation;
     float health;
     int ammo = 0;
+    Rigidbody2D rb;
 
     private bool hasParry = true;
     private bool hasGun = true;
@@ -69,16 +70,14 @@ public class Player : MonoBehaviour
     private float swingTime = 0.0f;
     private float swingCooldownTimer = 5.0f;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
         Health = maxHealth;
         Ammo = 0;
-        pos = transform.position;
         rotation = transform.rotation;
+        rb = GetComponent<Rigidbody2D>();
 
         if (!parryTool) {
             Debug.LogWarning("Could not find the ParryTool gameobject!");
@@ -118,28 +117,31 @@ public class Player : MonoBehaviour
         Move();
         Look();
         if(hasParry) {Parry();}
-        transform.position = pos;
         anchor.rotation = rotation;
     }
 
     void Move() {
-        pos.x += speed * Time.deltaTime * Input.GetAxisRaw("Horizontal");
-        pos.y += speed * Time.deltaTime * Input.GetAxisRaw("Vertical");
+        rb.velocity = new Vector2(
+            speed * Input.GetAxisRaw("Horizontal"),
+            speed * Input.GetAxisRaw("Vertical"));
+        animator.SetBool("Walking", rb.velocity.x != 0);
 
         Vector3 scale = sprite.localScale;
         if (Input.GetAxisRaw("Horizontal") != 0)
-            scale.x = Mathf.Abs(scale.x) * (Input.GetAxisRaw("Horizontal") > 0 ? 1 : -1);
+            scale.x = Mathf.Abs(scale.x) * (Input.GetAxisRaw("Horizontal") > 0 ? -1 : 1);
         sprite.localScale = scale;
 
         Vector3 corner = Camera.main.ScreenToWorldPoint(Vector3.zero);
+        Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, corner.x, -corner.x);
         pos.y = Mathf.Clamp(pos.y, corner.y, -corner.y);
+        transform.position = pos;
     }
 
     void Look() {
         Vector2 mousePosWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        float deltax = mousePosWorld.x - pos.x;
-        float deltay = mousePosWorld.y - pos.y;
+        float deltax = mousePosWorld.x - transform.position.x;
+        float deltay = mousePosWorld.y - transform.position.y;
         float angle = Mathf.Atan(deltay / deltax) * Mathf.Rad2Deg;
         if(deltax < 0) {
             angle -= 180.0f;
