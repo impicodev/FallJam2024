@@ -6,8 +6,8 @@ public class Projectile : MonoBehaviour
 {
     public float lifetime = 10;
 
-    [System.NonSerialized] public AnimationCurve speed;
-    [System.NonSerialized] public float damage = 10;
+    public AnimationCurve speed;
+    public float damage = 10;
     float timer = 0;
 
     private void Awake()

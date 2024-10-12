@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 355a2d0a62e146045b433a905bb6cc45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 20
+  Health: 10
   Speed: 1.5
   SpawnDazeDuration: 1
   DamageStunDuration: 0.2
@@ -202,4 +202,4 @@ MonoBehaviour:
   AttackDuration: 0.25
   PauseAfterAttack: 0.1
   AttackCooldown: 1.5
-  ContactDamage: 8
+  ContactDamage: 6

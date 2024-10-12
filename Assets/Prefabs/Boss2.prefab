@@ -47,64 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3988cb7d3945c234c82f3cb7367c2216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Perturbed Potato
+  Name: Calamitous Carrot
   attacks:
-  - projectilePrefab: {fileID: 5574431120585154082, guid: 2bcff3b4bca3f254292c1d4dcbdad439, type: 3}
-    pattern: 0
-    amount: 8
-    damage: 6
-    speed:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 15.141598
-        inSlope: 0.18637675
-        outSlope: 0.18637675
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 1
-      - serializedVersion: 3
-        time: 0.2500192
-        value: 3.9799166
-        inSlope: -0.27353972
-        outSlope: -0.27353972
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.7254008
-        outWeight: 0.24434638
-      - serializedVersion: 3
-        time: 3.013553
-        value: 2.428438
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    spreadDelta: 6
-    sameRotation: 0
-    likelihood: 10
-    waitBefore: 1
-    waitAfter: 0
-    recalculateAngle: 0
-    burstAmount: 5
-    burstDelay: 0.4
-    burstAngleDelta: 0
-  - projectilePrefab: {fileID: 5574431120585154082, guid: 2bcff3b4bca3f254292c1d4dcbdad439, type: 3}
+  - projectilePrefab: {fileID: 5574431120585154082, guid: b79f40c899fd7974e9c6b68e14450882, type: 3}
     pattern: 1
-    amount: 1
-    damage: 6
+    amount: 3
+    damage: 10
     speed:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 5.006775
+        time: -0.013351917
+        value: 10.502722
         inSlope: 0
         outSlope: 0
         tangentMode: 34
@@ -112,8 +66,8 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: 5.006775
+        time: 0.9866481
+        value: 10.502722
         inSlope: 0
         outSlope: 0
         tangentMode: 34
@@ -123,16 +77,53 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    spreadDelta: 0
-    sameRotation: 0
-    likelihood: 8
+    spreadDelta: 18
+    sameRotation: 1
+    likelihood: 10
     waitBefore: 1
     waitAfter: 0
     recalculateAngle: 1
-    burstAmount: 8
-    burstDelay: 0.25
+    burstAmount: 6
+    burstDelay: 0.6
     burstAngleDelta: 0
-  - projectilePrefab: {fileID: 5692013528356163089, guid: d825a8f202fee504fb26778a4dfdb803, type: 3}
+  - projectilePrefab: {fileID: 5574431120585154082, guid: b79f40c899fd7974e9c6b68e14450882, type: 3}
+    pattern: 0
+    amount: 8
+    damage: 10
+    speed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.028841918
+        value: 9.249626
+        inSlope: 0.005298313
+        outSlope: 0.005298313
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.3840317
+      - serializedVersion: 3
+        time: 1
+        value: 6.3260345
+        inSlope: -3.010418
+        outSlope: -3.010418
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    spreadDelta: 0
+    sameRotation: 0
+    likelihood: 10
+    waitBefore: 1
+    waitAfter: 0
+    recalculateAngle: 0
+    burstAmount: 16
+    burstDelay: 0.2
+    burstAngleDelta: 7
+  - projectilePrefab: {fileID: 1099069285061679933, guid: 56569816b5bbf354c8937afbb72467a2, type: 3}
     pattern: 2
     amount: 1
     damage: 0
@@ -144,15 +135,52 @@ MonoBehaviour:
       m_RotationOrder: 4
     spreadDelta: 0
     sameRotation: 0
-    likelihood: 3
+    likelihood: 6
     waitBefore: 1
     waitAfter: 0
     recalculateAngle: 0
-    burstAmount: 2
+    burstAmount: 1
     burstDelay: 0.5
     burstAngleDelta: 0
+  - projectilePrefab: {fileID: 5574431120585154082, guid: b79f40c899fd7974e9c6b68e14450882, type: 3}
+    pattern: 0
+    amount: 50
+    damage: 10
+    speed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.05609083
+        value: 9.847677
+        inSlope: -0.27415386
+        outSlope: -0.27415386
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.21111114
+      - serializedVersion: 3
+        time: 0.30165446
+        value: 5.585629
+        inSlope: -17.356188
+        outSlope: -17.356188
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    spreadDelta: 0
+    sameRotation: 0
+    likelihood: 10
+    waitBefore: 1
+    waitAfter: 0
+    recalculateAngle: 0
+    burstAmount: 4
+    burstDelay: 1.2
+    burstAngleDelta: 20
   attacksAreOrdered: 0
-  maxHealth: 250
+  maxHealth: 500
   spriteRadius: 2
   manager: {fileID: 0}
   hurtSounds:
@@ -246,8 +274,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.16, y: 0.21}
-  m_Size: {x: 3.93, y: 7.25}
+  m_Offset: {x: -0.02, y: -0.67}
+  m_Size: {x: 5.48, y: 7.05}
   m_Direction: 0
 --- !u!82 &-6512128484954932508
 AudioSource:
