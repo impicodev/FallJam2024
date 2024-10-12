@@ -9,6 +9,7 @@ public class TutorialPanel : MonoBehaviour
 {
     public TMP_Text Text1;
     public TMP_Text Text2;
+    public TMP_Text Text3;
     public float TextFadeDuration = 2.0f;
     public float PanelFadeDuration = 1.0f;
 
@@ -19,5 +20,6 @@ public class TutorialPanel : MonoBehaviour
         DOTween.To(() => img.color, x => img.color = x, new Color(img.color.r, img.color.g, img.color.b, 0.0f), PanelFadeDuration);
         DOTween.To(() => Text1.color, x => Text1.color = x, new Color(Text1.color.r, Text1.color.g, Text1.color.b, 0.0f), TextFadeDuration);
         DOTween.To(() => Text2.color, x => Text2.color = x, new Color(Text2.color.r, Text2.color.g, Text2.color.b, 0.0f), TextFadeDuration);
+        DOTween.To(() => Text3.color, x => Text3.color = x, new Color(Text3.color.r, Text3.color.g, Text3.color.b, 0.0f), TextFadeDuration);
     }
 }

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3988cb7d3945c234c82f3cb7367c2216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpBar: {fileID: 0}
+  Name: Perturbed Potato
   attacks:
   - projectilePrefab: {fileID: 5574431120585154082, guid: 2bcff3b4bca3f254292c1d4dcbdad439, type: 3}
     pattern: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   attacksAreOrdered: 0
   maxHealth: 250
   spriteRadius: 2
+  manager: {fileID: 0}
 --- !u!212 &2293917967103245268
 SpriteRenderer:
   m_ObjectHideFlags: 0

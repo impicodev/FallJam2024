@@ -23,11 +23,12 @@ public class Boss : MonoBehaviour
         }
     }
 
-    public BossSceneManager manager;
+    public string Name = "Bossy";
     public List<BossAttack> attacks;
     public bool attacksAreOrdered = false;
     public float maxHealth = 100;
     public float spriteRadius = 1;
+    public BossSceneManager manager;
 
     float health;
 
