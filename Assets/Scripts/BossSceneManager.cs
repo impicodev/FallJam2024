@@ -52,6 +52,7 @@ public class BossSceneManager : MonoBehaviour
     private void Start()
     {
         HideUI();
+        Minion.SetFrozen(false);
         
         bossIdx = Mathf.Clamp(bossIdx, 0, BossPrefabs.Length - 1);
 
@@ -62,13 +63,20 @@ public class BossSceneManager : MonoBehaviour
         Player.manager = this;
 
         if (tutorialClosed)
+        {
+            tutorial.gameObject.SetActive(false);
             BeginRound();
+        }
     }
 
     private void Update()
     {
         if (!tutorialClosed && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
+        { 
+            tutorial.FadeOut();
+            tutorialClosed = true;
             BeginRound();
+        }
     }
 
     private void HideUI()
@@ -80,10 +88,7 @@ public class BossSceneManager : MonoBehaviour
 
     private void BeginRound()
     {
-        Debug.Log("round start");
         
-        tutorial.gameObject.SetActive(false);
-        tutorialClosed = true;
 
         BossHPBar.gameObject.SetActive(true);
         PlayerHPBar.gameObject.SetActive(true);
