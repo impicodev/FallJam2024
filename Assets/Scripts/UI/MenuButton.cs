@@ -7,7 +7,6 @@ public class MenuButton : MonoBehaviour
 {
     public void StartGame()
     {
-        Debug.Log("sdsdsdfsd");
         StartCoroutine(LoadBossScene());
     }
 

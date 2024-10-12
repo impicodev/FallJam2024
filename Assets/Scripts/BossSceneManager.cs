@@ -11,9 +11,13 @@ public class BossSceneManager : MonoBehaviour
     public Vector2 BossPosition = new Vector2(0.0f, 3.15f);
     public Player Player;
     public Slider BossHPBar;
+    public Slider PlayerHPBar;
+    public GameObject AmmoUIObject;
     public TMP_Text BigText;
+    public TutorialPanel tutorial;
 
     static private int bossIdx = 0;
+    static private bool tutorialClosed = false;
     private Boss boss = null;
     private bool roundIsOver = false;
 
@@ -23,6 +27,7 @@ public class BossSceneManager : MonoBehaviour
 
         roundIsOver = true;
         BigText.text = "YOU WON\n(yippee!)";
+        Minion.SetFrozen(true);
         NextBoss();
     }
 
@@ -30,6 +35,7 @@ public class BossSceneManager : MonoBehaviour
     {
         roundIsOver = true;
         BigText.text = "YOU DIED\n(womp womp)";
+        Minion.SetFrozen(true);
         EndBossScene();
     }
 
@@ -45,18 +51,45 @@ public class BossSceneManager : MonoBehaviour
 
     private void Start()
     {
-        bossIdx = Mathf.Clamp(bossIdx, 0, BossPrefabs.Length - 1);
+        HideUI();
         
+        bossIdx = Mathf.Clamp(bossIdx, 0, BossPrefabs.Length - 1);
+
         GameObject bossObject = Instantiate(BossPrefabs[bossIdx], BossPosition, Quaternion.identity);
         boss = bossObject.GetComponent<Boss>();
         boss.manager = this;
 
         Player.manager = this;
+
+        if (tutorialClosed)
+            BeginRound();
     }
 
     private void Update()
     {
+        if (!tutorialClosed && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
+            BeginRound();
+    }
+
+    private void HideUI()
+    {
+        BossHPBar.gameObject.SetActive(false);
+        PlayerHPBar.gameObject.SetActive(false);
+        AmmoUIObject.SetActive(false);
+    }
+
+    private void BeginRound()
+    {
+        Debug.Log("round start");
         
+        tutorial.gameObject.SetActive(false);
+        tutorialClosed = true;
+
+        BossHPBar.gameObject.SetActive(true);
+        PlayerHPBar.gameObject.SetActive(true);
+        AmmoUIObject.SetActive(true);
+
+        boss.BeginAttacking();
     }
 
     private void NextBoss()

@@ -26,8 +26,14 @@ public class Minion : MonoBehaviour
     protected Rigidbody2D body = null;
     protected float activityTime = 0.0f;
     protected float damageTime = damageCooldown;
+    protected static bool frozen = false;
     private bool startedAttacking = false;
     private bool finishedAttacking = false;
+
+    public static void SetFrozen(bool val)
+    {
+        frozen = val;
+    }
 
     public void TakeDamage(float amount = 0.0f)
     {
@@ -47,9 +53,7 @@ public class Minion : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
-        if (Player.Instance == null) return;
-        
+    {   
         activityTime += Time.deltaTime;
         
         if (damageTime < damageCooldown)
@@ -89,12 +93,14 @@ public class Minion : MonoBehaviour
     }
 
     protected virtual void Follow()
-    {    
+    {
+        activityTime = 0.0f;
+
+        if (Player.Instance == null || frozen) return;
+
         Vector3 followPosition = Player.Instance.transform.position;
 
-        body.MovePosition(Vector2.MoveTowards(body.position, followPosition, Speed * Time.deltaTime));
-
-        activityTime = 0.0f;
+        body.MovePosition(Vector2.MoveTowards(body.position, followPosition, Speed * Time.deltaTime));  
     }
 
     private void Attack()
@@ -136,7 +142,7 @@ public class Minion : MonoBehaviour
         if (activityTime > DeathDuration)
         {
             Destroy(gameObject);
-            Player.aliveMinions -= 1;
+            if (Player.Instance != null) Player.aliveMinions -= 1;
         }
     }
 

@@ -12,6 +12,12 @@ public class RangedMinion : Minion
 
     protected override void Follow()
     {
+        if (Player.Instance == null || frozen)
+        {
+            activityTime = 0.0f;
+            return;
+        }
+
         Vector3 followPosition = Player.Instance.transform.position;
 
         body.MovePosition(Vector2.MoveTowards(body.position, followPosition, Speed * Time.deltaTime));
@@ -22,6 +28,8 @@ public class RangedMinion : Minion
 
     protected override void StartAttack()
     {
+        if (Player.Instance == null || frozen) return;
+
         Vector3 gap = Player.Instance.transform.position - transform.position;
         float projectileAngle = -Vector2.SignedAngle(gap, Vector2.up);
 

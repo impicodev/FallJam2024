@@ -33,8 +33,15 @@ public class Boss : MonoBehaviour
 
     private void Start()
     {
+        
+        
+    }
+
+    public void BeginAttacking()
+    {
         Health = maxHealth;
         StartCoroutine(mainLoop());
+        Debug.Log("begun attacking");
     }
 
     public IEnumerator attack(BossAttack attack)
@@ -43,6 +50,9 @@ public class Boss : MonoBehaviour
         float angle = 0;
         for (int i = 0; i < attack.burstAmount; i++)
         {
+            if (health <= 0)
+                break;
+            
             if (i == 0 || attack.recalculateAngle)
             {
                 angle = Random.Range(0, 360);
@@ -96,8 +106,10 @@ public class Boss : MonoBehaviour
 
     public IEnumerator mainLoop()
     {
+        Debug.Log("main looping");
+        
         int i = -1;
-        while (true)
+        while (health > 0)
         {
             if (attacksAreOrdered)
             {
@@ -105,7 +117,9 @@ public class Boss : MonoBehaviour
             }
             else
             {
-                Debug.Log(Player.aliveMinions);
+                //Debug.Log(Player.aliveMinions);
+
+                i = attacks.Count - 1;
 
                 float sum = 0;
                 foreach (BossAttack attack in attacks)

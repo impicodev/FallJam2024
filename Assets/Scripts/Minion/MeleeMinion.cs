@@ -24,6 +24,12 @@ public class MeleeMinion : Minion
 
     protected override void Follow()
     {
+        if (Player.Instance == null || frozen)
+        {
+            activityTime = 0.0f;
+            return;
+        }
+        
         Vector3 followPosition = Player.Instance.transform.position;
 
         body.MovePosition(Vector2.MoveTowards(body.position, followPosition, Speed * Time.deltaTime));
@@ -36,6 +42,8 @@ public class MeleeMinion : Minion
 
     protected override void StartAttack()
     {
+        if (Player.Instance == null || frozen) return;
+
         hitTransform.localPosition = (Player.Instance.transform.position - transform.position).normalized * HitDistance;
         hitCollider.enabled = true;
         hit.SpriteObject.SetActive(true);
