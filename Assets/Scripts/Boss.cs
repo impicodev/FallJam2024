@@ -11,13 +11,19 @@ public class Boss : MonoBehaviour
         get { return health; }
         set
         {
+            if(value - health < 0) {
+                PlayHurtSound();
+            }
             health = value;
+
             // update healthbar UI
             //Debug.Log("Boss is at " + health + " health");
             manager.DisplayBossHealth(health / maxHealth);
 
             if (health <= 0)
             {
+                audioSource.clip = deathSound;
+                audioSource.Play();
                 enabled = false;
                 manager.BossDied();
             }
@@ -31,18 +37,30 @@ public class Boss : MonoBehaviour
     public float spriteRadius = 1;
     public BossSceneManager manager;
 
+    AudioSource audioSource;
+
+    public List<AudioClip> hurtSounds;
+    public AudioClip deathSound;
+
     float health;
     SpriteRenderer sprite;
 
     private void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void FlashHurt()
     {
         sprite.color = Color.red;
         DOTween.To(() => sprite.color, x => sprite.color = x, Color.white, 0.5f);
+    }
+
+    private void PlayHurtSound() {
+        int i = (int) Random.Range(0, hurtSounds.Count);
+        audioSource.clip = hurtSounds[i];
+        audioSource.Play();
     }
 
     public void BeginAttacking()
