@@ -36,6 +36,10 @@ public class Player : MonoBehaviour
         get { return ammo; }
         set
         {
+            if(ammo - value < 0) {
+                audioSource.clip = gunLoadSound;
+                audioSource.Play();
+            }
             ammo = Mathf.Min(maxAmmo, value);
             //Debug.Log("Player has " + ammo + " ammos");
             // update ammo UI
@@ -52,6 +56,10 @@ public class Player : MonoBehaviour
     public GameObject parryTool;
     public TMP_Text bigText, ammoText;
     public Slider hpBar;
+
+    private AudioSource audioSource;
+    public AudioClip gunLoadSound;
+    public AudioClip gunFireSound;
 
     [Header("Constants")]
     [SerializeField] int maxAmmo = 8;
@@ -93,6 +101,8 @@ public class Player : MonoBehaviour
         rotation = transform.rotation;
         rb = GetComponent<Rigidbody2D>();
 
+        audioSource = GetComponent<AudioSource>();
+
         if (!parryTool) {
             Debug.LogWarning("Could not find the ParryTool gameobject!");
             hasParry = false;
@@ -124,6 +134,7 @@ public class Player : MonoBehaviour
         // rmb for now
         if (Input.GetMouseButtonDown(1) && Ammo > 0 && hasGun)
         {
+            audioSource.PlayOneShot(gunFireSound);
             shotgun.Shoot(Ammo);
             Ammo = 0;
         }
