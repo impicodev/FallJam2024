@@ -37,12 +37,13 @@ public class Player : MonoBehaviour
         set
         {
             ammo = Mathf.Min(maxAmmo, value);
-            Debug.Log("Player has " + ammo + " ammos");
+            //Debug.Log("Player has " + ammo + " ammos");
             // update ammo UI
-            if (ammoText) ammoText.text = "Ammo: " + ammo.ToString() + " / " + maxAmmo.ToString();
+            manager.DisplayAmmo(ammo);
         }
     }
 
+    public BossSceneManager manager;
     public Animator animator;
     public Transform sprite;
     public Transform anchor;
@@ -201,20 +202,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void BossDied()
-    {
-        bigText.text = "YOU WON\n(yippee!)";
-        StartCoroutine(reloadScene(4));
-    }
-
     private void Die()
     {
         SloMo(3.0f);
         StopCoroutine("FlashSprite");
         foreach (Transform child in transform)
             child.gameObject.SetActive(false);
-        bigText.text = "YOU DIED\n(womp womp)";
-        StartCoroutine(reloadScene(4));
+
+        manager.PlayerDied();
     }
 
     private void SloMo(float seconds) {
@@ -238,12 +233,6 @@ public class Player : MonoBehaviour
             sprite.gameObject.SetActive(true);
             yield return new WaitForSecondsRealtime(seconds / (flashTimes * 2));
         }
-    }
-
-    private IEnumerator reloadScene(float wait)
-    {
-        yield return new WaitForSecondsRealtime(wait);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
 

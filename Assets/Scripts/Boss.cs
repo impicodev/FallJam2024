@@ -12,14 +12,18 @@ public class Boss : MonoBehaviour
         {
             health = value;
             // update healthbar UI
-            Debug.Log("Boss is at " + health + " health");
-            if (hpBar) hpBar.normalizedValue = health / maxHealth;
+            //Debug.Log("Boss is at " + health + " health");
+            manager.DisplayBossHealth(health / maxHealth);
+
             if (health <= 0)
-                Player.Instance.BossDied();
+            {
+                enabled = false;
+                manager.BossDied();
+            }
         }
     }
 
-    public Slider hpBar;
+    public BossSceneManager manager;
     public List<BossAttack> attacks;
     public bool attacksAreOrdered = false;
     public float maxHealth = 100;
