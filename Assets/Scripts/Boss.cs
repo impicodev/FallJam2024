@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Boss : MonoBehaviour
 {
@@ -31,11 +32,17 @@ public class Boss : MonoBehaviour
     public BossSceneManager manager;
 
     float health;
+    SpriteRenderer sprite;
 
     private void Start()
     {
-        
-        
+        sprite = GetComponent<SpriteRenderer>();
+    }
+
+    public void FlashHurt()
+    {
+        sprite.color = Color.red;
+        DOTween.To(() => sprite.color, x => sprite.color = x, Color.white, 0.5f);
     }
 
     public void BeginAttacking()

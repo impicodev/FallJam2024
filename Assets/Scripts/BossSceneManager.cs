@@ -67,6 +67,7 @@ public class BossSceneManager : MonoBehaviour
         if (!updateBars) return;
         
         DOTween.To(() => BossHPBar.normalizedValue, x => BossHPBar.normalizedValue = x, normalizedHealth, 0.1f);
+        boss.FlashHurt();
     }
 
     public void DisplayPlayerHealth(float normalizedHealth)
