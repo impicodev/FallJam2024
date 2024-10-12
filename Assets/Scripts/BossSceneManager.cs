@@ -12,6 +12,7 @@ public class BossSceneManager : MonoBehaviour
     public Vector2 BossPosition = new Vector2(0.0f, 3.15f);
     public Player Player;
     public Slider BossHPBar;
+    public Slider BossHPBar2;
     public Slider PlayerHPBar;
     public GameObject AmmoUIObject;
     public FadingText BigText;
@@ -66,8 +67,15 @@ public class BossSceneManager : MonoBehaviour
     {
         if (!updateBars) return;
         
-        DOTween.To(() => BossHPBar.normalizedValue, x => BossHPBar.normalizedValue = x, normalizedHealth, 0.1f);
-        boss.FlashHurt();
+        if (BossHPBar.normalizedValue <= normalizedHealth) {
+            DOTween.To(() => BossHPBar.normalizedValue, x => BossHPBar.normalizedValue = x, normalizedHealth, 0.1f);
+        }
+        else {
+            BossHPBar2.normalizedValue = BossHPBar.normalizedValue;
+            BossHPBar.normalizedValue = normalizedHealth;
+            DOTween.To(() => BossHPBar2.normalizedValue, x => BossHPBar2.normalizedValue = x, normalizedHealth, 1.2f).SetEase(Ease.OutSine);
+            boss.FlashHurt();
+        }
     }
 
     public void DisplayPlayerHealth(float normalizedHealth)
@@ -146,6 +154,7 @@ public class BossSceneManager : MonoBehaviour
 
     private void FillBars()
     {
+        BossHPBar2.normalizedValue = 0.0f;
         BossHPBar.normalizedValue = 0.0f;
         DOTween.To(() => BossHPBar.normalizedValue, x => BossHPBar.normalizedValue = x, 1.0f, 1.0f);
 
