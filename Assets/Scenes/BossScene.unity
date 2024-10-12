@@ -1768,7 +1768,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<color=#ff00ffff>Right-Click</color>
+  m_text: '<color=#ff00ffff>Left-Click</color>
 
     to harvest bullet seeds'
   m_isRightToLeft: 0
@@ -2728,6 +2728,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Text1: {fileID: 1338013697}
   Text2: {fileID: 2119620605}
+  TextFadeDuration: 2
+  PanelFadeDuration: 1
 --- !u!1 &1889442167
 GameObject:
   m_ObjectHideFlags: 0
@@ -3159,7 +3161,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<color=#00ffffff>Left-Click</color>
+  m_text: '<color=#00ffffff>Right-Click</color>
 
     to shoot them all out'
   m_isRightToLeft: 0
