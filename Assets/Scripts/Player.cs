@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
                 isInvuln = true;
                 StartCoroutine(TempInvlun(hitInvulnTime));
                 StartCoroutine(FlashSprite(hitInvulnTime));
+                audioSource.clip = hurtSound;
+                audioSource.Play();
 
             }
             health = value;
@@ -60,6 +62,8 @@ public class Player : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip gunLoadSound;
     public AudioClip gunFireSound;
+    public AudioClip hurtSound;
+    public AudioClip deathSound;
 
     [Header("Constants")]
     [SerializeField] int maxAmmo = 8;
@@ -215,6 +219,9 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
+        isInvuln = true; // hack to stop the player from taking more damage once dead
+        audioSource.clip = deathSound;
+        audioSource.Play();
         SloMo(3.0f);
         StopCoroutine("FlashSprite");
         foreach (Transform child in transform)

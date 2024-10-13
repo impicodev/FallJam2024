@@ -3597,6 +3597,8 @@ MonoBehaviour:
   hpBar: {fileID: 1180164095}
   gunLoadSound: {fileID: 8300000, guid: f2d60aba29d2f9c538b6f3f2ea0ad163, type: 3}
   gunFireSound: {fileID: 8300000, guid: c928bed86dedc29efb328fd59a87836f, type: 3}
+  hurtSound: {fileID: 8300000, guid: af111eca7afaad6bf86bc062dc7aa9e6, type: 3}
+  deathSound: {fileID: 8300000, guid: 6f1b329b5c515f500b8f96a29e04a5f6, type: 3}
   maxAmmo: 8
   speed: 5
   maxHealth: 50
