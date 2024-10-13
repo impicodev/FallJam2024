@@ -246,7 +246,7 @@ public class Player : MonoBehaviour
     {
         isInvuln = true;
         isFrozen = true;
-
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
     }
 
     private IEnumerator TempInvlun(float seconds) {
