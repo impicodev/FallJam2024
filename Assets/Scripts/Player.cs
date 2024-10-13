@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
     private bool hasParry = true;
     private bool hasGun = true;
     private bool isInvuln = false;
+    private bool isFrozen = false;
 
     private Quaternion swingStartRotation;
     private Quaternion swingEndRotation;
@@ -128,6 +129,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isFrozen) return;
+        
         if (!clickToSwing)
         {
             shotgun.transform.position = parryTool.transform.GetChild(0).position;
@@ -237,6 +240,13 @@ public class Player : MonoBehaviour
     }
     private void ResetTimeScale() {
         Time.timeScale = 1.0f;
+    }
+
+    public void Freeze()
+    {
+        isInvuln = true;
+        isFrozen = true;
+
     }
 
     private IEnumerator TempInvlun(float seconds) {

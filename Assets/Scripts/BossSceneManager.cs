@@ -38,6 +38,7 @@ public class BossSceneManager : MonoBehaviour
         BigText.Flicker();
 
         Minion.SetFrozen(true);
+        Player.Freeze();
 
         NextBoss();
     }
