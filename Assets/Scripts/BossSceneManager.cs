@@ -56,7 +56,8 @@ public class BossSceneManager : MonoBehaviour
 
         Minion.SetFrozen(true);
 
-        EndBossScene();
+        //EndBossScene();
+        ResetBoss();
     }
 
     public void DisplayAmmo(int count)
@@ -184,6 +185,11 @@ public class BossSceneManager : MonoBehaviour
         {
             EndBossScene();
         }
+    }
+
+    private void ResetBoss()
+    {
+        StartCoroutine(ReloadScene(4));
     }
 
     private void EndBossScene()
