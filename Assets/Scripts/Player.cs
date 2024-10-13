@@ -21,8 +21,7 @@ public class Player : MonoBehaviour
                 isInvuln = true;
                 StartCoroutine(TempInvlun(hitInvulnTime));
                 StartCoroutine(FlashSprite(hitInvulnTime));
-                audioSource.clip = hurtSound;
-                audioSource.Play();
+                audioSource.PlayOneShot(hurtSound);
 
             }
             health = value;
@@ -61,10 +60,12 @@ public class Player : MonoBehaviour
     public Slider hpBar;
 
     private AudioSource audioSource;
+    public AudioSource walkAudioSource;
     public AudioClip gunLoadSound;
     public AudioClip gunFireSound;
     public AudioClip hurtSound;
     public AudioClip deathSound;
+    public AudioClip walkSound;
 
     [Header("Constants")]
     [SerializeField] int maxAmmo = 8;
@@ -90,6 +91,7 @@ public class Player : MonoBehaviour
     private bool hasGun = true;
     private bool isInvuln = false;
     private bool isFrozen = false;
+    private bool isWalking = false;
 
     private Quaternion swingStartRotation;
     private Quaternion swingEndRotation;
@@ -108,6 +110,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         audioSource = GetComponent<AudioSource>();
+        walkAudioSource.clip = walkSound;
 
         if (!parryTool) {
             Debug.LogWarning("Could not find the ParryTool gameobject!");
@@ -153,6 +156,7 @@ public class Player : MonoBehaviour
         }
 
         Move();
+        PlayWalkSound();
         Look();
         if(hasParry) {Parry();}
         anchor.rotation = rotation;
@@ -162,8 +166,10 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(
             speed * Input.GetAxisRaw("Horizontal"),
             speed * Input.GetAxisRaw("Vertical"));
+
+        isWalking = rb.velocity.x != 0 || rb.velocity.y != 0;
         //animator.SetBool("Walking", rb.velocity.x != 0);
-        animator.SetBool("Walking", rb.velocity.x != 0 || rb.velocity.y != 0);
+        animator.SetBool("Walking", isWalking);
 
         Vector3 scale = sprite.localScale;
         if (Input.GetAxisRaw("Horizontal") != 0)
@@ -225,7 +231,7 @@ public class Player : MonoBehaviour
     private void Die()
     {
         animator.SetTrigger("Die");
-        isInvuln = true; // hack to stop the player from taking more damage once dead
+        Freeze();
         audioSource.clip = deathSound;
         audioSource.Play();
         SloMo(3.0f);
@@ -250,6 +256,7 @@ public class Player : MonoBehaviour
         isFrozen = true;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
         animator.SetBool("Walking", false);
+        walkAudioSource.enabled = false;
     }
 
     private IEnumerator TempInvlun(float seconds) {
@@ -264,6 +271,15 @@ public class Player : MonoBehaviour
             yield return new WaitForSecondsRealtime(seconds / (flashTimes * 2));
             sprite.gameObject.SetActive(true);
             yield return new WaitForSecondsRealtime(seconds / (flashTimes * 2));
+        }
+    }
+
+    private void PlayWalkSound() {
+        if(!walkAudioSource.isPlaying && isWalking) {
+            walkAudioSource.Play();
+        }
+        else if(!isWalking) {
+            walkAudioSource.Stop();
         }
     }
 }

@@ -19,6 +19,9 @@ public class BossSceneManager : MonoBehaviour
     public FadingText BossNameText;
     public TutorialPanel tutorial;
 
+    private AudioSource audioSource;
+    public AudioClip victorySound;
+
     static private int bossIdx = 0;
     static private bool tutorialClosed = false;
     static private bool UIEntered = false;
@@ -31,6 +34,8 @@ public class BossSceneManager : MonoBehaviour
         if (roundIsOver) return;
 
         roundIsOver = true;
+
+        audioSource.PlayDelayed(0.5f);
 
         BigText.SetText("BOUNTY SECURED");
         BigText.SetColor(new Color(0.95f, 0.83f, 0.5f, 1.0f));
@@ -89,6 +94,9 @@ public class BossSceneManager : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = victorySound;
+
         Minion.SetFrozen(false);
         
         bossIdx = Mathf.Clamp(bossIdx, 0, BossPrefabs.Length - 1);
