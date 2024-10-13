@@ -28,7 +28,8 @@ public class Player : MonoBehaviour
             health = value;
             // update healthbar UI
             Debug.Log("Player is at " + health + " health");
-            if (hpBar) hpBar.normalizedValue = health / maxHealth;
+            //if (hpBar) hpBar.normalizedValue = health / maxHealth;
+            manager.DisplayPlayerHealth(health / maxHealth);
             if (health <= 0)
                 Die();
         }
