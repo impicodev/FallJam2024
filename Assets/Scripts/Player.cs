@@ -240,9 +240,9 @@ public class Player : MonoBehaviour
         shotgun.gameObject.SetActive(false);
         animator.SetBool("Dead", true);
         walkAudioSource.enabled = false;
-        isInvuln = true;
         audioSource.clip = deathSound;
         audioSource.Play();
+        Freeze();
         SloMo(3.0f);
         StopCoroutine("FlashSprite");
         StartCoroutine(begone());
