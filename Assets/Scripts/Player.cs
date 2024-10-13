@@ -162,7 +162,8 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(
             speed * Input.GetAxisRaw("Horizontal"),
             speed * Input.GetAxisRaw("Vertical"));
-        animator.SetBool("Walking", rb.velocity.x != 0);
+        //animator.SetBool("Walking", rb.velocity.x != 0);
+        animator.SetBool("Walking", rb.velocity.x != 0 || rb.velocity.y != 0);
 
         Vector3 scale = sprite.localScale;
         if (Input.GetAxisRaw("Horizontal") != 0)
@@ -247,6 +248,7 @@ public class Player : MonoBehaviour
         isInvuln = true;
         isFrozen = true;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+        animator.SetBool("Walking", false);
     }
 
     private IEnumerator TempInvlun(float seconds) {
