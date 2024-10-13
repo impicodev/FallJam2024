@@ -231,7 +231,8 @@ public class Player : MonoBehaviour
     private void Die()
     {
         animator.SetTrigger("Die");
-        Freeze();
+        walkAudioSource.enabled = false;
+        isInvuln = true;
         audioSource.clip = deathSound;
         audioSource.Play();
         SloMo(3.0f);
@@ -256,7 +257,6 @@ public class Player : MonoBehaviour
         isFrozen = true;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
         animator.SetBool("Walking", false);
-        walkAudioSource.enabled = false;
     }
 
     private IEnumerator TempInvlun(float seconds) {
