@@ -9,6 +9,7 @@ using DG.Tweening;
 public class BossSceneManager : MonoBehaviour
 {
     public GameObject[] BossPrefabs;
+    public GameObject defeat1, defeat2, defeat3, defeat4, dark;
     public Vector2 BossPosition = new Vector2(0.0f, 3.15f);
     public Player Player;
     public Slider BossHPBar;
@@ -22,7 +23,7 @@ public class BossSceneManager : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip victorySound;
 
-    static private int bossIdx = 0;
+    static public int bossIdx = 0;
     static private bool tutorialClosed = false;
     static private bool UIEntered = false;
     private Boss boss = null;
@@ -35,6 +36,7 @@ public class BossSceneManager : MonoBehaviour
 
         roundIsOver = true;
 
+        DOTween.To(() => Soundtrack.Instance.src.volume, x => Soundtrack.Instance.src.volume = x, 0.15f, 0.2f);
         audioSource.PlayDelayed(0.5f);
 
         BigText.SetText("BOUNTY SECURED");
@@ -43,6 +45,7 @@ public class BossSceneManager : MonoBehaviour
         BigText.Flicker();
 
         Minion.SetFrozen(true);
+        Player.animator.SetBool("Walking", false);
         Player.Freeze();
 
         NextBoss();
@@ -54,10 +57,20 @@ public class BossSceneManager : MonoBehaviour
 
         roundIsOver = true;
 
-        BigText.SetText("LIFE RUINED");
+        int r = Random.Range(0, 4);
+        dark.SetActive(true);
+        if (r == 0)
+            defeat1.SetActive(true);
+        else if (r == 1)
+            defeat2.SetActive(true);
+        else if (r == 2)
+            defeat3.SetActive(true);
+        else
+            defeat4.SetActive(true);
+        /*BigText.SetText("LIFE RUINED");
         BigText.SetColor(new Color(0.83f, 0.63f, 0.63f, 1.0f));
         BigText.MakeFullyVisible();
-        BigText.Flicker();
+        BigText.Flicker();*/
 
         Minion.SetFrozen(true);
 

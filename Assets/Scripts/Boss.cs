@@ -151,7 +151,7 @@ public class Boss : MonoBehaviour
 
     public IEnumerator mainLoop()
     {
-        Debug.Log("main looping");
+        yield return new WaitForSeconds(2);
         
         int i = -1;
         while (health > 0)

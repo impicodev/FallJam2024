@@ -17,6 +17,7 @@ public class MenuButton : MonoBehaviour
 
     IEnumerator LoadBossScene()
     {
+        yield return new WaitForSeconds(0.2f);
         AsyncOperation load = SceneManager.LoadSceneAsync("BossScene");
 
         while (!load.isDone) yield return null;

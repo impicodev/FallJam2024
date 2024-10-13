@@ -141,8 +141,8 @@ public class Player : MonoBehaviour
             shotgun.transform.up = parryTool.transform.right;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space)) // TESTING PURPOSES ONLY
-            Ammo += 1;
+        //if (Input.GetKeyDown(KeyCode.Space)) // TESTING PURPOSES ONLY
+        //    Ammo += 1;
         // rmb for now
         if (Input.GetMouseButtonDown(1) && Ammo > 0 && hasGun)
         {
@@ -152,9 +152,9 @@ public class Player : MonoBehaviour
         }
 
         // kills the player for testing
-        if(Input.GetKeyDown("k")) {
-            Health = 0;
-        }
+        //if(Input.GetKeyDown("k")) {
+        //    Health = 0;
+        //}
 
         Move();
         PlayWalkSound();
@@ -238,6 +238,7 @@ public class Player : MonoBehaviour
     private void Die()
     {
         shotgun.gameObject.SetActive(false);
+        parryTool.gameObject.SetActive(false);
         animator.SetBool("Dead", true);
         walkAudioSource.enabled = false;
         audioSource.clip = deathSound;
