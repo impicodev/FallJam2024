@@ -3905,6 +3905,7 @@ MonoBehaviour:
   bigText: {fileID: 176448571}
   ammoText: {fileID: 0}
   hpBar: {fileID: 1180164095}
+  deathSprite: {fileID: 5930771206277790206, guid: 86367aa9577d9db448b45cbb09119325, type: 3}
   walkAudioSource: {fileID: 51747708}
   gunLoadSound: {fileID: 8300000, guid: f2d60aba29d2f9c538b6f3f2ea0ad163, type: 3}
   gunFireSound: {fileID: 8300000, guid: c928bed86dedc29efb328fd59a87836f, type: 3}

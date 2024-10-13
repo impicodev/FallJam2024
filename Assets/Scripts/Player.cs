@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
     public GameObject parryTool;
     public TMP_Text bigText, ammoText;
     public Slider hpBar;
+    public Sprite deathSprite;
 
     private AudioSource audioSource;
     public AudioSource walkAudioSource;
@@ -228,17 +229,23 @@ public class Player : MonoBehaviour
         }
     }
 
+    IEnumerator begone() {
+        yield return new WaitForSeconds(1.6f);
+        animator.enabled = false;
+        animator.GetComponent<SpriteRenderer>().sprite = deathSprite;
+    }
+
     private void Die()
     {
-        animator.SetTrigger("Die");
+        shotgun.gameObject.SetActive(false);
+        animator.SetBool("Dead", true);
         walkAudioSource.enabled = false;
         isInvuln = true;
         audioSource.clip = deathSound;
         audioSource.Play();
         SloMo(3.0f);
         StopCoroutine("FlashSprite");
-        foreach (Transform child in transform)
-            child.gameObject.SetActive(false);
+        StartCoroutine(begone());
 
         manager.PlayerDied();
     }
