@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2293917967103245268}
   - component: {fileID: 7806275826059573362}
   - component: {fileID: 6485493035391484147}
+  - component: {fileID: -8472714133276805237}
   m_Layer: 0
   m_Name: Boss3
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 286962375462339154}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,18 +48,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3988cb7d3945c234c82f3cb7367c2216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Pepper
+  Name: Paranormal Pepper
   attacks:
   - projectilePrefab: {fileID: 5574431120585154082, guid: b891b7f19b069ec46905de811c2d5ab5, type: 3}
     pattern: 1
-    amount: 3
-    damage: 10
+    amount: 2
+    damage: 8
     speed:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: -0.013351917
-        value: 10.502722
+        value: 9.03315
         inSlope: 0
         outSlope: 0
         tangentMode: 34
@@ -67,7 +68,7 @@ MonoBehaviour:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.9866481
-        value: 10.502722
+        value: 9.03315
         inSlope: 0
         outSlope: 0
         tangentMode: 34
@@ -77,19 +78,21 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    spreadDelta: 18
-    sameRotation: 1
-    likelihood: 10
+    spreadDelta: 9
+    sameRotation: 0
+    randomRotation: 1
+    likelihood: 14
     waitBefore: 1
     waitAfter: 0
     recalculateAngle: 1
-    burstAmount: 6
-    burstDelay: 0.6
+    burstAmount: 4
+    burstDelay: 0.1
     burstAngleDelta: 0
+    switchEvery: 0
   - projectilePrefab: {fileID: 5574431120585154082, guid: b891b7f19b069ec46905de811c2d5ab5, type: 3}
     pattern: 0
     amount: 8
-    damage: 10
+    damage: 8
     speed:
       serializedVersion: 2
       m_Curve:
@@ -116,6 +119,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     spreadDelta: 0
     sameRotation: 0
+    randomRotation: 0
     likelihood: 10
     waitBefore: 1
     waitAfter: 0
@@ -123,29 +127,11 @@ MonoBehaviour:
     burstAmount: 16
     burstDelay: 0.2
     burstAngleDelta: 7
-  - projectilePrefab: {fileID: 1387665095202844316, guid: 346a8d42062017047b739f3a3886e814, type: 3}
-    pattern: 2
-    amount: 1
-    damage: 0
-    speed:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    spreadDelta: 0
-    sameRotation: 0
-    likelihood: 5
-    waitBefore: 1
-    waitAfter: 0
-    recalculateAngle: 0
-    burstAmount: 2
-    burstDelay: 0.5
-    burstAngleDelta: 0
+    switchEvery: 0
   - projectilePrefab: {fileID: 5574431120585154082, guid: b891b7f19b069ec46905de811c2d5ab5, type: 3}
     pattern: 0
-    amount: 4
-    damage: 10
+    amount: 5
+    damage: 8
     speed:
       serializedVersion: 2
       m_Curve:
@@ -172,6 +158,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     spreadDelta: 0
     sameRotation: 0
+    randomRotation: 0
     likelihood: 8
     waitBefore: 1
     waitAfter: 0
@@ -179,10 +166,12 @@ MonoBehaviour:
     burstAmount: 45
     burstDelay: 0.07
     burstAngleDelta: 5
+    switchEvery: 10
   attacksAreOrdered: 0
   maxHealth: 800
   spriteRadius: 2
   manager: {fileID: 0}
+  offset: {x: 0, y: 2, z: 0}
   hurtSounds:
   - {fileID: 8300000, guid: 54700146bf9776eeb9653d2619ec4cab, type: 3}
   - {fileID: 8300000, guid: 3acda0e583ed77b83842ae379acd6cfe, type: 3}
@@ -231,7 +220,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 56fa52cbb537fbb41b1762fc93f79369, type: 3}
+  m_Sprite: {fileID: 6021113030412868644, guid: e45302967c29008468d1c87a46e66b1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -274,7 +263,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.04, y: -0.14}
+  m_Offset: {x: 0.04, y: 4.23}
   m_Size: {x: 5.9, y: 7.29}
   m_Direction: 0
 --- !u!82 &6485493035391484147
@@ -373,3 +362,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &-8472714133276805237
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286962375462339154}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 821ae3d0f7001d147a1141fdb76193a9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

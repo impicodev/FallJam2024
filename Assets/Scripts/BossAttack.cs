@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public enum BulletPattern
@@ -26,6 +27,7 @@ public class BossAttack
     public float spreadDelta = 0;
     [Tooltip("Determines whether the bullets will share a common rotation, or angle outwards")]
     public bool sameRotation = false;
+    public bool randomRotation = false;
     [Header("Attack Fields")]
     [Tooltip("Probability that attack will be chosen relative to others; irrelevant if attacks are ordered")]
     public float likelihood = 10;
@@ -36,4 +38,5 @@ public class BossAttack
     public float burstDelay = 0.3f;
     [Tooltip("Angle change between burst shots")]
     public float burstAngleDelta = 5;
+    public int switchEvery = 0;
 }

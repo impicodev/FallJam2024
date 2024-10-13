@@ -19,6 +19,7 @@ public class Minion : MonoBehaviour
     public float PauseAfterAttack = 0.1f;
     public float AttackCooldown = 1.5f;
     public float ContactDamage = 10.0f;
+    public Sprite deathSprite;
 
     protected enum ActivityState {SpawnDazed, Following, Attacking, Stunned, Dying}
 
@@ -100,6 +101,12 @@ public class Minion : MonoBehaviour
 
         Vector3 followPosition = Player.Instance.transform.position;
 
+        Vector3 scale = transform.localScale;
+        if (Player.Instance.rb.position.x >= transform.position.x)
+            scale.x = -Mathf.Abs(scale.x);
+        else
+            scale.x = Mathf.Abs(scale.x);
+        transform.localScale = scale;
         body.MovePosition(Vector2.MoveTowards(body.position, followPosition, Speed * Time.deltaTime));  
     }
 
@@ -139,6 +146,10 @@ public class Minion : MonoBehaviour
 
     private void Die()
     {
+        if (deathSprite) {
+            GetComponentInChildren<Animator>().enabled = false;
+            GetComponentInChildren<SpriteRenderer>().sprite = deathSprite;
+        }
         if (activityTime > DeathDuration)
         {
             Destroy(gameObject);

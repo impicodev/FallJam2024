@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     Quaternion rotation;
     float health;
     int ammo = 0;
-    Rigidbody2D rb;
+    [System.NonSerialized] public Rigidbody2D rb;
 
     private bool hasParry = true;
     private bool hasGun = true;
@@ -224,6 +224,7 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
+        animator.SetTrigger("Die");
         isInvuln = true; // hack to stop the player from taking more damage once dead
         audioSource.clip = deathSound;
         audioSource.Play();

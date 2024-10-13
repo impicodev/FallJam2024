@@ -36,8 +36,10 @@ public class Boss : MonoBehaviour
     public float maxHealth = 100;
     public float spriteRadius = 1;
     public BossSceneManager manager;
+    public Vector3 offset;
 
     AudioSource audioSource;
+    Animator animator;
 
     public List<AudioClip> hurtSounds;
     public AudioClip deathSound;
@@ -49,6 +51,8 @@ public class Boss : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
+        StartCoroutine(blink());
     }
 
     public void FlashHurt()
@@ -63,6 +67,13 @@ public class Boss : MonoBehaviour
         audioSource.Play();
     }
 
+    IEnumerator blink() {
+        float wait = Random.Range(2, 8);
+        yield return new WaitForSeconds(wait);
+        animator.SetTrigger("Blink");
+        StartCoroutine(blink());
+    }
+
     public void BeginAttacking()
     {
         Health = maxHealth;
@@ -74,8 +85,13 @@ public class Boss : MonoBehaviour
     {
         yield return new WaitForSeconds(attack.waitBefore);
         float angle = 0;
+        int sign = -1;
         for (int i = 0; i < attack.burstAmount; i++)
         {
+            if (attack.switchEvery > 0 && i % attack.switchEvery == 0) {
+                sign = -sign;
+            }
+
             if (health <= 0)
                 break;
             
@@ -84,7 +100,7 @@ public class Boss : MonoBehaviour
                 angle = Random.Range(0, 360);
                 if (attack.pattern == BulletPattern.TargetedSpread)
                 {
-                    Vector2 direction = Player.Instance.transform.position - transform.position;
+                    Vector2 direction = Player.Instance.rb.position - (Vector2)(transform.position + offset);
                     angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 }
             }
@@ -112,7 +128,10 @@ public class Boss : MonoBehaviour
 
                 for (int j = 0; j < attack.amount; j++)
                 {
-                    Vector3 position = transform.position +
+                    if (attack.randomRotation) {
+                        curAngle = Random.Range(angle - attack.spreadDelta, angle + attack.spreadDelta);
+                    }
+                    Vector3 position = transform.position + offset +
                         new Vector3(
                             Mathf.Cos(curAngle * Mathf.Deg2Rad),
                             Mathf.Sin(curAngle * Mathf.Deg2Rad),
@@ -121,10 +140,10 @@ public class Boss : MonoBehaviour
                     Projectile projectile = Instantiate(attack.projectilePrefab, position, rotation).GetComponent<Projectile>();
                     projectile.damage = attack.damage;
                     projectile.speed = attack.speed;
-                    curAngle += delta;
+                    curAngle += delta * sign;
                 }
             }
-            angle += attack.burstAngleDelta;
+            angle += attack.burstAngleDelta * sign;
             yield return new WaitForSeconds(attack.burstDelay);
         }
         yield return new WaitForSeconds(attack.waitAfter);
