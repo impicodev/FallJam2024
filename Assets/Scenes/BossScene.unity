@@ -2802,9 +2802,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossPrefabs:
-  - {fileID: 286962375462339154, guid: bdd4cd0bb711e5847995b001ae9d796f, type: 3}
   - {fileID: 286962375462339154, guid: 29b6d2807eec7c0468144f27231eb3e5, type: 3}
   - {fileID: 286962375462339154, guid: 50448e06aa8009045a3b433fb1629c9d, type: 3}
+  - {fileID: 286962375462339154, guid: bdd4cd0bb711e5847995b001ae9d796f, type: 3}
   BossPosition: {x: 0, y: 3.15}
   Player: {fileID: 1981467143}
   BossHPBar: {fileID: 1798011981}

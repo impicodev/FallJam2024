@@ -183,7 +183,7 @@ public class BossSceneManager : MonoBehaviour
         }
         else
         {
-            EndBossScene();
+            EndGame();
         }
     }
 
@@ -199,6 +199,13 @@ public class BossSceneManager : MonoBehaviour
         StartCoroutine(LoadMenu(4));
     }
 
+    private void EndGame()
+    {
+        UIEntered = false;
+        bossIdx = 0;
+        StartCoroutine(LoadEnd(4));
+    }
+
     private IEnumerator ReloadScene(float wait)
     {
         yield return new WaitForSecondsRealtime(wait);
@@ -209,5 +216,11 @@ public class BossSceneManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(wait);
         SceneManager.LoadScene("MenuScene");
+    }
+
+    private IEnumerator LoadEnd(float wait)
+    {
+        yield return new WaitForSecondsRealtime(wait);
+        SceneManager.LoadScene("EndScene");
     }
 }
