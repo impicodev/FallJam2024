@@ -36,11 +36,6 @@ public class FadingText : MonoBehaviour
         text.color = new Color(text.color.r, text.color.g, text.color.b, 1.0f);
     }
 
-    public void FadeOut(float duration)
-    {
-    
-    }
-
     public void Flicker()
     {
         StartCoroutine(FlashText(1.5f));
